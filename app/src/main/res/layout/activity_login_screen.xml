@@ -1,0 +1,89 @@
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99d9ea"
+    tools:context="com.example.sitar.budduapp.LoginScreen">
+
+    <FrameLayout android:layout_height="match_parent" android:layout_width="match_parent" android:fitsSystemWindows="true">
+
+
+        <!--LinearLayout android:background="@color/black_overlay" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/fullscreen_content_controls" tools:ignore="UselessParent" android:orientation="horizontal" android:layout_gravity="bottom|center_horizontal" style="?metaButtonBarStyle">
+
+            <Button android:layout_height="wrap_content" android:layout_width="0dp" android:id="@+id/dummy_button" style="?metaButtonBarButtonStyle" android:layout_weight="1"/>
+        </LinearLayout-->
+
+
+        <LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:weightSum="1" android:gravity="center">
+            <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="BuddyU" android:textColor="#ffffff" android:id="@+id/textView" android:layout_weight="0.19" android:layout_gravity="center_horizontal" android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
+
+            <ImageView
+                android:layout_height="600px"
+                android:layout_width="600px"
+                 android:src="@drawable/buddyu" />
+
+            <EditText android:layout_height="wrap_content" android:layout_width="match_parent" android:text="Username" android:gravity="center" android:id="@+id/Username" android:ems="10" android:inputType="textPersonName"/>
+
+            <EditText android:layout_height="70dp" android:layout_width="match_parent" android:text="Password" android:gravity="center" android:id="@+id/Password" android:ems="10" android:inputType="textPassword"/>
+
+            <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="Login!"  android:gravity="center" android:id="@+id/button" android:textAppearance="@style/TextAppearance.AppCompat"/>
+
+        </LinearLayout>
+    </FrameLayout>
+
+
+
+
+
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+  <!-- <TextView
+        android:id="@+id/fullscreen_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:text="@string/dummy_content"
+        android:textColor="#33b5e5"
+        android:textSize="50sp"
+        android:textStyle="bold" />-->
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+    <!--<FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:id="@+id/fullscreen_content_controls"
+            style="?metaButtonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/black_overlay"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <Button
+            android:id="@+id/dummy_button"
+            style="?metaButtonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dummy_button" />
+
+            <Button
+                android:id="@+id/dummy_button2"
+                style="?metaButtonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/dummy_button2" />
+        </LinearLayout>
+    </FrameLayout>-->
+
+</FrameLayout>
+
