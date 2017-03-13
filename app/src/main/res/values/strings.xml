@@ -4,4 +4,22 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_button2">Hello Sita</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_profile2">Profile</string>
+
+    <!--Events-->
+    <string-array name="events_array">
+        <item><b>Math 121-002</b> from 10:00-10:50</item>
+        <item><b>CS 171-C</b> from 2:00-3:50</item>
+        <item><b>Table Tennis</b> from 4:00-5:00</item>
+        <item><b>Women in Computing Society</b> from 6:30-8:00</item>
+    </string-array>
+    <string name="title_activity_addbuddies1">addbuddies1</string>
+    <string name="title_activity_settings__screen">Settings_Screen</string>
+    <string name="title_activity_monthly__calendar">Monthly_Calendar</string>
 </resources>
