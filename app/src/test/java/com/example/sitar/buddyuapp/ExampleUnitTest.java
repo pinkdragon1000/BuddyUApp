@@ -1,4 +1,4 @@
-package com.example.sitar.budduapp;
+package com.example.sitar.buddyuapp;
 
 import org.junit.Test;
 

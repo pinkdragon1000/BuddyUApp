@@ -4,6 +4,10 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_button2">Hello Sita</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+
+    <string name="facebook_app_id">272828499821731</string>
+
     <string name="title_activity_home_screen">HomeScreen</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -19,7 +23,17 @@
         <item><b>Table Tennis</b> from 4:00-5:00</item>
         <item><b>Women in Computing Society</b> from 6:30-8:00</item>
     </string-array>
+
+    <string-array name="chatGroups_array">
+        <item>Class 1</item>
+        <item>Class 2</item>
+        <item>Class 3</item>
+    </string-array>
     <string name="title_activity_addbuddies1">addbuddies1</string>
     <string name="title_activity_settings__screen">Settings_Screen</string>
     <string name="title_activity_monthly__calendar">Monthly_Calendar</string>
+    <string name="title_activity_main">BuddyU</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

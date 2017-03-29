@@ -1,4 +1,4 @@
-package com.example.sitar.budduapp;
+package com.example.sitar.buddyuapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

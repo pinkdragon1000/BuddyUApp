@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "444804816071",
+    "firebase_url": "https://buddyu-8f21d.firebaseio.com",
+    "project_id": "buddyu-8f21d",
+    "storage_bucket": "buddyu-8f21d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444804816071:android:514bcfc04d37b3c2",
+        "android_client_info": {
+          "package_name": "com.example.sitar.buddyuapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "444804816071-p13h6k8htk6add97n832gio4sf7v0kaa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGAvFKKj-vPlO3GBiyWsCA5Elq5xmaQpw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
