@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity
         YourBuddiesFragment.OnFragmentInteractionListener,
         ChatFragment.OnFragmentInteractionListener,
         ChatGroupsFragment.OnFragmentInteractionListener,
+        ClassesFragment.OnFragmentInteractionListener,
+        AboutBuddyU.OnFragmentInteractionListener,
+        TermsAndConditions.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
 
@@ -83,9 +86,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+       // if (id == R.id.action_settings) {
+          //  return true;
+        //}
 
         return super.onOptionsItemSelected(item);
     }
@@ -103,6 +106,10 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_chat)
         {
             getFragmentManager().beginTransaction().replace(R.id.content_main, new ChatGroupsFragment()).commit();
+        }
+        else if(id==R.id.nav_classes)
+        {
+            getFragmentManager().beginTransaction().replace(R.id.content_main, new ClassesFragment()).commit();
         }
         else if (id == R.id.nav_calendar)
         {

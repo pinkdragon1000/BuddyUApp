@@ -42,13 +42,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class registration extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class registration extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener
+{
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -58,6 +61,7 @@ public class registration extends AppCompatActivity implements View.OnClickListe
     private EditText password;
     private TextView signin;
 
+    private DatabaseReference userRef;
     private SignInButton googleButton;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
@@ -86,10 +90,12 @@ public class registration extends AppCompatActivity implements View.OnClickListe
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
     // private View mContentView;
-    private final Runnable mHidePart2Runnable = new Runnable() {
+    private final Runnable mHidePart2Runnable = new Runnable()
+    {
         @SuppressLint("InlinedApi")
         @Override
-        public void run() {
+        public void run()
+        {
             // Delayed removal of status and navigation bar
 
             // Note that some of these constants are new as of API 16 (Jelly Bean)
@@ -105,21 +111,26 @@ public class registration extends AppCompatActivity implements View.OnClickListe
         }
     };
     // private View mControlsView;
-    private final Runnable mShowPart2Runnable = new Runnable() {
+    private final Runnable mShowPart2Runnable = new Runnable()
+    {
         @Override
-        public void run() {
+        public void run()
+        {
             // Delayed display of UI elements
             ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
+            if (actionBar != null)
+            {
                 actionBar.show();
             }
             // mControlsView.setVisibility(View.VISIBLE);
         }
     };
     private boolean mVisible;
-    private final Runnable mHideRunnable = new Runnable() {
+    private final Runnable mHideRunnable = new Runnable()
+    {
         @Override
-        public void run() {
+        public void run()
+        {
             hide();
         }
     };
@@ -128,24 +139,29 @@ public class registration extends AppCompatActivity implements View.OnClickListe
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener()
+    {
         @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
+        public boolean onTouch(View view, MotionEvent motionEvent)
+        {
+            if (AUTO_HIDE)
+            {
                 delayedHide(AUTO_HIDE_DELAY_MILLIS);
             }
             return false;
         }
     };
 
-    public void goToHome(View view) {
+    public void goToHome(View view)
+    {
         Intent intent = new Intent(this,com.example.sitar.buddyuapp.MainActivity.class);
         startActivity(intent);
     }
 
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(ConnectionResult connectionResult)
+    {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
@@ -155,11 +171,14 @@ public class registration extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        userRef = database.getReference("Users");
 
-
+        userRef.setValue("Hello, World!");
 
         setContentView(R.layout.activity_registration);
         firebaseAuth=FirebaseAuth.getInstance();
@@ -168,6 +187,8 @@ public class registration extends AppCompatActivity implements View.OnClickListe
         if(firebaseAuth.getCurrentUser() !=null)
         {
             finish();
+           DatabaseReference temp= userRef.push();
+            temp.setValue(firebaseAuth.getCurrentUser().getUid());
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
         }
         else
@@ -200,7 +221,7 @@ public class registration extends AppCompatActivity implements View.OnClickListe
 
 
         // Build a GoogleApiClient with access to the Google Sign-In API and the
-// options specified by gso.
+        // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -247,6 +268,8 @@ public class registration extends AppCompatActivity implements View.OnClickListe
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     finish();
+                   // DatabaseReference temp= userRef.push();
+                   // temp.setValue(firebaseAuth.getCurrentUser().getUid());
                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 } else {
                     // User is signed out
@@ -256,38 +279,6 @@ public class registration extends AppCompatActivity implements View.OnClickListe
 
             }
         };
-
-
-
-
-
-
-
-
-        // mControlsView = findViewById(R.id.fullscreen_content_controls);
-        // mContentView = findViewById(R.id.fullscreen_content);
-
-
-        // Set up the user interaction to manually show or hide the system UI.
-       /*mContentView.setOnClickListener(new View.OnClickListener() {
-           @Override
-            public void onClick(View view) {
-                toggle();
-            }
-        });
-        */
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        //   findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
-       /* findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToHome(view);
-            }
-        });
-     */
     }
 
     private void userLogin()
@@ -317,6 +308,8 @@ public class registration extends AppCompatActivity implements View.OnClickListe
                 if(task.isSuccessful())
                 {
                     finish();
+                    DatabaseReference temp= userRef.push();
+                    temp.setValue(firebaseAuth.getCurrentUser().getUid());
                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 }
                 else

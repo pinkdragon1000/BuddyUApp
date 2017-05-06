@@ -11,86 +11,71 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
-        android:text="Main"
+        android:id="@+id/settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/textView4"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="70px"
+        android:text="Settings" />
+
 
     <Button
-        android:text="Edit My Profile"
+        android:text="About BuddyU"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button8"
-        android:layout_below="@+id/textView4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:background="#6ac6af"
+        android:textColor="#ffffff"
+        android:id="@+id/about_app"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/settings"
+        android:layout_alignLeft="@+id/notifications"
+        android:layout_alignStart="@+id/notifications"
+        android:layout_alignRight="@+id/notifications"
+        android:layout_alignEnd="@+id/notifications" />
 
     <Button
         android:text="Notifications"
+        android:id="@+id/notifications"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button9"
-        android:layout_below="@+id/button8"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_height="100px"
+        android:background="#6ac6af"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/about_app"
+        android:layout_alignRight="@+id/terms_and_conditions"
+        android:layout_alignEnd="@+id/terms_and_conditions"
+        android:layout_alignLeft="@+id/terms_and_conditions"
+        android:layout_alignStart="@+id/terms_and_conditions" />
 
-    <Button
-        android:text="Sign Out"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button9"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/button10" />
 
-    <TextView
-        android:text="Support"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button10"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="26dp"
-        android:id="@+id/textView5"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <Button
-        android:text="About App"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView5"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/button11" />
 
     <Button
         android:text="Terms and Conditions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button12"
-        android:layout_below="@+id/button11"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:background="#6ac6af"
+        android:textColor="#ffffff"
+        android:id="@+id/terms_and_conditions"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/notifications"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:text="Report a Problem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button12"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/button13" />
+        android:background="#6ac6af"
+        android:textColor="#ffffff"
+        android:id="@+id/report_a_problem"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/terms_and_conditions"
+        android:layout_alignRight="@+id/terms_and_conditions"
+        android:layout_alignEnd="@+id/terms_and_conditions"
+        android:layout_alignLeft="@+id/terms_and_conditions"
+        android:layout_alignStart="@+id/terms_and_conditions" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="Settings" />
+
 </RelativeLayout>

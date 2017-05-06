@@ -8,18 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import static android.R.attr.id;
-
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SettingsFragment.OnFragmentInteractionListener} interface
+ * {@link AboutBuddyU.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SettingsFragment#newInstance} factory method to
+ * Use the {@link AboutBuddyU#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SettingsFragment extends android.app.Fragment {
+public class AboutBuddyU extends android.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,7 +29,7 @@ public class SettingsFragment extends android.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public SettingsFragment() {
+    public AboutBuddyU() {
         // Required empty public constructor
     }
 
@@ -41,11 +39,11 @@ public class SettingsFragment extends android.app.Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingsFragment.
+     * @return A new instance of fragment AboutBuddyU.
      */
     // TODO: Rename and change types and number of parameters
-    public static SettingsFragment newInstance(String param1, String param2) {
-        SettingsFragment fragment = new SettingsFragment();
+    public static AboutBuddyU newInstance(String param1, String param2) {
+        AboutBuddyU fragment = new AboutBuddyU();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -53,42 +51,20 @@ public class SettingsFragment extends android.app.Fragment {
         return fragment;
     }
 
-
-
-        @Override
-        public void onCreate (Bundle savedInstanceState)
-        {
-            super.onCreate(savedInstanceState);
-            if (getArguments() != null) {
-                mParam1 = getArguments().getString(ARG_PARAM1);
-                mParam2 = getArguments().getString(ARG_PARAM2);
-            }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
-        view.findViewById(R.id.about_app).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.content_main, new AboutBuddyU()).commit();
-            }
-        });
-
-        view.findViewById(R.id.terms_and_conditions).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.content_main, new TermsAndConditions()).commit();
-            }
-        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
-
-
+        return inflater.inflate(R.layout.fragment_about_buddyu, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

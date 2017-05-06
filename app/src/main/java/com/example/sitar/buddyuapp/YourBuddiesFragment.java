@@ -1,6 +1,7 @@
 package com.example.sitar.buddyuapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,8 @@ import android.view.ViewGroup;
  * Use the {@link YourBuddiesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class YourBuddiesFragment extends android.app.Fragment {
+public class YourBuddiesFragment extends android.app.Fragment
+{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +31,8 @@ public class YourBuddiesFragment extends android.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public YourBuddiesFragment() {
+    public YourBuddiesFragment()
+    {
         // Required empty public constructor
     }
 
@@ -42,7 +45,8 @@ public class YourBuddiesFragment extends android.app.Fragment {
      * @return A new instance of fragment YourBuddiesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static YourBuddiesFragment newInstance(String param1, String param2) {
+    public static YourBuddiesFragment newInstance(String param1, String param2)
+    {
         YourBuddiesFragment fragment = new YourBuddiesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -52,12 +56,25 @@ public class YourBuddiesFragment extends android.app.Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        if (getArguments() != null)
+        {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        view.findViewById(R.id.addBuddiesButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(getActivity(),com.example.sitar.buddyuapp.AddBuddies.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -86,7 +103,8 @@ public class YourBuddiesFragment extends android.app.Fragment {
     }
 
     @Override
-    public void onDetach() {
+    public void onDetach()
+    {
         super.onDetach();
         mListener = null;
     }
@@ -101,7 +119,8 @@ public class YourBuddiesFragment extends android.app.Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnFragmentInteractionListener
+    {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }

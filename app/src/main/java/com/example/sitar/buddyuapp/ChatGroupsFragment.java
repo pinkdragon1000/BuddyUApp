@@ -70,14 +70,8 @@ public class ChatGroupsFragment extends android.app.Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-/*
-        view.findViewById(R.id.groupsList).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.content_main, new ChatFragment()).commit();
-            }
-        });
-  */
+
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

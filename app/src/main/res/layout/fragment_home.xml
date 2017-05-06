@@ -14,22 +14,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Today's Classes and Events"
-            android:textSize="50px"
-            android:gravity="center"
-            />
 
-        <ListView
-            android:id="@+id/eventsList"
+        <ImageView
+            android:id="@+id/imageView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/events_array"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_height="260dp"
+            app:srcCompat="@drawable/buddyu3" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:gravity="center"
+            android:text="Welcome to BuddyU,
+            The Social Scheduler!"
+            android:textSize="70px" />
+
+
     </LinearLayout>
 
 </RelativeLayout>

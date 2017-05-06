@@ -5,6 +5,10 @@
     <string name="dummy_button2">Hello Sita</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <string name="about_buddyu">
+        The BuddyU app provides a professional platform for college students to collaborate their
+        schedules to make class time more efficient, collaborative and enjoyable for our users.
+    </string>
 
     <string name="facebook_app_id">272828499821731</string>
 
@@ -18,10 +22,10 @@
 
     <!--Events-->
     <string-array name="events_array">
-        <item><b>Math 121-002</b> from 10:00-10:50</item>
-        <item><b>CS 171-C</b> from 2:00-3:50</item>
-        <item><b>Table Tennis</b> from 4:00-5:00</item>
-        <item><b>Women in Computing Society</b> from 6:30-8:00</item>
+        <item><b>Math 122-001</b> from 10:00-10:50</item>
+        <item><b>CS 172-A</b> from 11:00-12:50</item>
+        <item><b>CI 103-D</b> from 2:00-2:50</item>
+        <item><b>GEO 101-A</b> from 6:30-9:30</item>
     </string-array>
 
     <string-array name="chatGroups_array">

@@ -14,7 +14,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
 
         <TextView
@@ -28,28 +31,58 @@
             android:layout_centerHorizontal="true" />
 
         <ImageView
-            android:layout_width="320px"
-            android:layout_height="320px"
+            android:layout_width="4000px"
+            android:layout_height="400px"
             app:srcCompat="@mipmap/ic_launcher"
-            android:id="@+id/imageView"
-            android:scaleType="fitXY"
+            android:id="@+id/profile_picture"
+            android:scaleType="centerInside"
             android:adjustViewBounds="true"
-            android:layout_centerInParent="true"/>
-
-
-        <Button
-            android:text="Buddies"
-            android:layout_width="match_parent"
-            android:layout_height="100px"
-            android:id="@+id/yourbuddiesbtn"
-            android:gravity="center"
-            android:background="#f65d60"
-            android:textColor="#ffffff"
-
-            android:layout_below="@+id/imageView"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/username"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
+
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/upload_image"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:text="Upload Image"
+        android:textColor="#26a69a"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+        android:layout_marginTop="31dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/yourbuddiesbtn"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:background="#6ac6af"
+        android:gravity="center"
+        android:text="Buddies"
+        android:textColor="#ffffff"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/upload_image"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:background="#6ac6af"
+        android:textColor="#ffffff"
+        android:id="@+id/buddy_requests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="31dp"
+        android:text="Buddy Requests"
+        android:layout_below="@+id/yourbuddiesbtn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
