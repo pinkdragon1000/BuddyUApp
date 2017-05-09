@@ -167,18 +167,15 @@ public class registration extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        userRef = database.getReference("Users");
+        userRef = database.getReference("Users2");
 
-        userRef.setValue("Hello, World!");
+        //userRef.setValue("Hello, World!");
 
         setContentView(R.layout.activity_registration);
         firebaseAuth=FirebaseAuth.getInstance();
@@ -187,8 +184,8 @@ public class registration extends AppCompatActivity implements View.OnClickListe
         if(firebaseAuth.getCurrentUser() !=null)
         {
             finish();
-           DatabaseReference temp= userRef.push();
-            temp.setValue(firebaseAuth.getCurrentUser().getUid());
+            //DatabaseReference temp= userRef.push();
+            //temp.setValue(firebaseAuth.getCurrentUser().getUid());
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
         }
         else
@@ -260,16 +257,28 @@ public class registration extends AppCompatActivity implements View.OnClickListe
 // ...
 
 
+
+
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+
+                    DatabaseReference uu = userRef.child(firebaseAuth.getCurrentUser().getUid());
+                    uu.child("provider").setValue(firebaseAuth.getCurrentUser().getProviderId());
+                    String name = firebaseAuth.getCurrentUser().getDisplayName();
+                    if (name == null || name.equals(""))
+                        name = firebaseAuth.getCurrentUser().getEmail();
+                    uu.child("name").setValue(name);
+                    uu.child("email").setValue(firebaseAuth.getCurrentUser().getEmail());
+
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     finish();
-                   // DatabaseReference temp= userRef.push();
-                   // temp.setValue(firebaseAuth.getCurrentUser().getUid());
+                    // DatabaseReference temp= userRef.push();
+                    // temp.setValue(firebaseAuth.getCurrentUser().getUid());
                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 } else {
                     // User is signed out
@@ -308,8 +317,8 @@ public class registration extends AppCompatActivity implements View.OnClickListe
                 if(task.isSuccessful())
                 {
                     finish();
-                    DatabaseReference temp= userRef.push();
-                    temp.setValue(firebaseAuth.getCurrentUser().getUid());
+                    //DatabaseReference temp= userRef.push();
+                    //temp.setValue(firebaseAuth.getCurrentUser().getUid());
                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 }
                 else

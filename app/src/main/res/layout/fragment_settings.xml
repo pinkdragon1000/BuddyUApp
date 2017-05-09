@@ -34,23 +34,6 @@
         android:layout_alignRight="@+id/notifications"
         android:layout_alignEnd="@+id/notifications" />
 
-    <Button
-        android:text="Notifications"
-        android:id="@+id/notifications"
-        android:layout_width="wrap_content"
-        android:layout_height="100px"
-        android:background="#6ac6af"
-        android:gravity="center"
-        android:textColor="#ffffff"
-        android:layout_marginTop="31dp"
-        android:layout_below="@+id/about_app"
-        android:layout_alignRight="@+id/terms_and_conditions"
-        android:layout_alignEnd="@+id/terms_and_conditions"
-        android:layout_alignLeft="@+id/terms_and_conditions"
-        android:layout_alignStart="@+id/terms_and_conditions" />
-
-
-
 
     <Button
         android:text="Terms and Conditions"
@@ -60,8 +43,23 @@
         android:textColor="#ffffff"
         android:id="@+id/terms_and_conditions"
         android:layout_marginTop="31dp"
-        android:layout_below="@+id/notifications"
+        android:layout_below="@+id/about_app"
         android:layout_centerHorizontal="true" />
+    <Button
+        android:text="Notifications"
+        android:id="@+id/notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="100px"
+        android:background="#6ac6af"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/terms_and_conditions"
+        android:layout_alignRight="@+id/terms_and_conditions"
+        android:layout_alignEnd="@+id/terms_and_conditions"
+        android:layout_alignLeft="@+id/terms_and_conditions"
+        android:layout_alignStart="@+id/terms_and_conditions" />
+
 
     <Button
         android:text="Report a Problem"
@@ -71,7 +69,7 @@
         android:textColor="#ffffff"
         android:id="@+id/report_a_problem"
         android:layout_marginTop="31dp"
-        android:layout_below="@+id/terms_and_conditions"
+        android:layout_below="@+id/notifications"
         android:layout_alignRight="@+id/terms_and_conditions"
         android:layout_alignEnd="@+id/terms_and_conditions"
         android:layout_alignLeft="@+id/terms_and_conditions"

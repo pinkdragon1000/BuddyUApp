@@ -1,13 +1,30 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.sitar.buddyuapp.TermsAndConditions">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+
     <TextView
+        android:id="@+id/terms_and_conditions_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="70px"
+        android:text="Terms and Conditions" />
+
+
+    <TextView
+        android:id="@+id/terms_and_conditions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+        android:text= "@string/terms_and_conditions"
+        android:textSize="40px"
+        android:scrollbars="vertical"/>
+    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>

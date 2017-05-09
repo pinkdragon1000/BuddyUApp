@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity
         ClassesFragment.OnFragmentInteractionListener,
         AboutBuddyU.OnFragmentInteractionListener,
         TermsAndConditions.OnFragmentInteractionListener,
+        BuddyRequests.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
 

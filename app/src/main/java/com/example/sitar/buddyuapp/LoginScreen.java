@@ -42,6 +42,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 /**
@@ -58,6 +60,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     private EditText password;
     private TextView signup;
 
+    private DatabaseReference userRef;
     private SignInButton googleButton;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
@@ -85,7 +88,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
      */
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
-   // private View mContentView;
+    // private View mContentView;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -104,7 +107,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                     */
         }
     };
-   // private View mControlsView;
+    // private View mControlsView;
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
@@ -113,7 +116,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             if (actionBar != null) {
                 actionBar.show();
             }
-           // mControlsView.setVisibility(View.VISIBLE);
+            // mControlsView.setVisibility(View.VISIBLE);
         }
     };
     private boolean mVisible;
@@ -151,15 +154,12 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        userRef = database.getReference("Users2");
 
         setContentView(R.layout.activity_login_screen);
         firebaseAuth=FirebaseAuth.getInstance();
@@ -186,7 +186,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         signup.setOnClickListener(this);
         mVisible = true;
 
-       googleButton= (SignInButton)findViewById(R.id.googleButton);
+        googleButton= (SignInButton)findViewById(R.id.googleButton);
         googleButton.setOnClickListener(this);
         //mStatusTextView = (TextView) findViewById(R.id.status);
 
@@ -244,6 +244,15 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+
+                    DatabaseReference uu = userRef.child(firebaseAuth.getCurrentUser().getUid());
+                    uu.child("provider").setValue(firebaseAuth.getCurrentUser().getProviderId());
+                    String name = firebaseAuth.getCurrentUser().getDisplayName();
+                    if (name == null || name.equals(""))
+                        name = firebaseAuth.getCurrentUser().getEmail();
+                    uu.child("name").setValue(name);
+                    uu.child("email").setValue(firebaseAuth.getCurrentUser().getEmail());
+
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     finish();
@@ -264,8 +273,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
 
 
-       // mControlsView = findViewById(R.id.fullscreen_content_controls);
-      // mContentView = findViewById(R.id.fullscreen_content);
+        // mControlsView = findViewById(R.id.fullscreen_content_controls);
+        // mContentView = findViewById(R.id.fullscreen_content);
 
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -280,7 +289,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-     //   findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        //   findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
        /* findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -314,15 +323,15 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             public void onComplete(@NonNull Task<AuthResult> task)
             {
                 progressDialog.dismiss();
-              if(task.isSuccessful())
-              {
-                  finish();
-                  startActivity(new Intent(getApplicationContext(),MainActivity.class));
-              }
-              else
-              {
-                  Toast.makeText(LoginScreen.this, "Error:Could not login.  Please try again.", Toast.LENGTH_SHORT).show();
-              }
+                if(task.isSuccessful())
+                {
+                    finish();
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                }
+                else
+                {
+                    Toast.makeText(LoginScreen.this, "Error:Could not login.  Please try again.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -394,24 +403,24 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     }
 
     @Override
-public void onClick(View view)
-{
-    if(view==buttonsignin)
+    public void onClick(View view)
     {
-        userLogin();
-    }
-    else if(view==googleButton)
-    {
-        signIn();
-    }
-    else if(view==signup)
-    {
-        finish();
-        startActivity(new Intent (this, registration.class));
+        if(view==buttonsignin)
+        {
+            userLogin();
+        }
+        else if(view==googleButton)
+        {
+            signIn();
+        }
+        else if(view==signup)
+        {
+            finish();
+            startActivity(new Intent (this, registration.class));
 
 
+        }
     }
-}
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -445,7 +454,7 @@ public void onClick(View view)
         if (actionBar != null) {
             actionBar.hide();
         }
-      //  mControlsView.setVisibility(View.GONE);
+        //  mControlsView.setVisibility(View.GONE);
         mVisible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay

@@ -180,23 +180,20 @@ public class ProfileFragment extends android.app.Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
-        firebaseAuth=firebaseAuth.getInstance();
-        username=(TextView)view.findViewById(R.id.username);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        firebaseAuth = firebaseAuth.getInstance();
+        username = (TextView) view.findViewById(R.id.username);
         username.setText(firebaseAuth.getCurrentUser().getEmail());
-        mstorage= FirebaseStorage.getInstance().getReference();
-        uploadImage=(Button) view.findViewById(R.id.upload_image);
-        profilePicture=(ImageView) view.findViewById(R.id.profile_picture);
+        mstorage = FirebaseStorage.getInstance().getReference();
+        uploadImage = (Button) view.findViewById(R.id.upload_image);
+        profilePicture = (ImageView) view.findViewById(R.id.profile_picture);
 
         loadProfilePicture();
 
-        uploadImage.setOnClickListener(new View.OnClickListener()
-        {
+        uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                Intent intent=new Intent(Intent.ACTION_PICK);
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityForResult(intent, GALLERY_INTENT);
             }
@@ -206,6 +203,13 @@ public class ProfileFragment extends android.app.Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction().replace(R.id.content_main, new YourBuddiesFragment()).commit();
+            }
+        });
+        view.findViewById(R.id.buddy_requests).setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction().replace(R.id.content_main, new BuddyRequests()).commit();
             }
         });
     }

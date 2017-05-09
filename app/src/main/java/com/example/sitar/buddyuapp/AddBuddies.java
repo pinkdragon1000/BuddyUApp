@@ -20,28 +20,27 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 class Buddy {
 
-    String code = null;
+    //String code = null;
     String name = null;
     boolean selected = false;
 
-    public Buddy(StorageReference code, String name, boolean selected) {
+    public Buddy(String name, boolean selected) {
         super();
         //this.code = code;
         this.name = name;
         this.selected = selected;
     }
 
-    public String getCode() {
-        return code;
-    }
-    public void setCode(String code) {
-        this.code = code;
-    }
     public String getName() {
         return name;
     }
@@ -57,15 +56,6 @@ class Buddy {
     }
 
 }
-
-
-
-
-
-
-
-
-
 
 public class AddBuddies extends AppCompatActivity
 {
@@ -90,28 +80,17 @@ public class AddBuddies extends AppCompatActivity
     private void displayListView() {
 
         //Array list of countries
-        ArrayList<Buddy> buddiesList = new ArrayList<Buddy>();
+        final ArrayList<Buddy> buddiesList = new ArrayList<Buddy>();
         firebaseAuth=firebaseAuth.getInstance();
         mstorage= FirebaseStorage.getInstance().getReference();
-        String UID =firebaseAuth.getCurrentUser().getUid();
+        final String UID =firebaseAuth.getCurrentUser().getUid();
         StorageReference filepath=mstorage.child("Users/"+UID);
-        String Email=firebaseAuth.getCurrentUser().getEmail();
-        Buddy buddy = new Buddy(filepath,Email,false);
-        buddiesList.add(buddy);
-        buddy= new Buddy(filepath,"Albania",true);
-        buddiesList.add(buddy);
-        /*
-        buddy = new Buddy("DZA","Algeria",false);
-        buddiesList.add(buddy);
-        buddy= new Buddy("ASM","American Samoa",true);
-        buddiesList.add(buddy);
-        buddy = new Buddy ("AND","Andorra",true);
-        buddiesList.add(buddy);
-        buddy = new Buddy ("AGO","Angola",false);
-        buddiesList.add(buddy);
-        buddy = new Buddy ("AIA","Anguilla",false);
-        buddiesList.add(buddy);
-        */
+        DatabaseReference users = FirebaseDatabase.getInstance().getReference("Users2");
+        //String Email=firebaseAuth.getCurrentUser().getEmail();
+        //Buddy buddy = new Buddy(filepath,Email,false);
+        //buddiesList.add(buddy);
+        Buddy buddy;
+        buddy= new Buddy("Albania",true);
 
         //create an ArrayAdaptar from the String Array
         dataAdapter = new MyCustomAdapter(this,
@@ -119,6 +98,24 @@ public class AddBuddies extends AppCompatActivity
         ListView listView = (ListView) findViewById(R.id.listView1);
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
+
+        users.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot u: dataSnapshot.getChildren())
+                {
+                    Log.d("blah", UID + " " + u.toString());
+                    if(UID.equals(u.getKey()))
+                        continue;
+                    Buddy buddy = new Buddy(u.child("name").getValue(String.class),false);
+                    buddiesList.add(buddy);
+                }
+                dataAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
 
 
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -141,12 +138,12 @@ public class AddBuddies extends AppCompatActivity
         public MyCustomAdapter(Context context, int textViewResourceId,
                                ArrayList<Buddy> buddiesList) {
             super(context, textViewResourceId, buddiesList);
-            this.buddiesList = new ArrayList<Buddy>();
-            this.buddiesList.addAll(buddiesList);
+            this.buddiesList = buddiesList;//new ArrayList<Buddy>();
+            //this.buddiesList.addAll(buddiesList);
         }
 
         private class ViewHolder {
-            TextView code;
+            //TextView code;
             CheckBox name;
         }
 
@@ -162,7 +159,7 @@ public class AddBuddies extends AppCompatActivity
                 convertView = vi.inflate(R.layout.pick_buddies, null);
 
                 holder = new ViewHolder();
-                holder.code = (TextView) convertView.findViewById(R.id.code);
+               // holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 convertView.setTag(holder);
 
@@ -192,12 +189,13 @@ public class AddBuddies extends AppCompatActivity
                 holder = (ViewHolder) convertView.getTag();
             }
 
+            //if (position > 0) {
             Buddy buddy = buddiesList.get(position);
-            holder.code.setText(" (" +  buddy.getCode() + ")");
+            //holder.code.setText(" (" + buddy.getCode() + ")");
             holder.name.setText(buddy.getName());
             holder.name.setChecked(buddy.isSelected());
             holder.name.setTag(buddy);
-
+            //}
             return convertView;
 
         }

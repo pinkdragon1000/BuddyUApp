@@ -11,13 +11,17 @@
 
         <TextView android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:padding="10dp"
-            android:text="Pick Buddies" android:textSize="20sp" />
+            android:text="Add Buddies" android:textSize="20sp" />
 
 
         <Button
             android:id="@+id/findSelected"
             android:layout_width="match_parent"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/button"
+            android:textColor="#26a69a"
             android:text="Add Buddies that are Selected" />
 
         <ListView android:id="@+id/listView1" android:layout_width="fill_parent"

@@ -80,7 +80,7 @@ public class ClassesFragment extends android.app.Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
-    {
+        {
         firebaseAuth=firebaseAuth.getInstance();
         DatabaseReference catalog = FirebaseDatabase.getInstance().getReference("Catalog");
         listView = (ListView) view.findViewById(R.id.courses);
