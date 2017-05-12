@@ -88,7 +88,23 @@ public class ClassesFragment extends android.app.Fragment {
         final ArrayList courses = new ArrayList();
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
-                android.R.layout.simple_list_item_multiple_choice, courses);
+                android.R.layout.simple_list_item_multiple_choice, courses)
+        {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                // Get the current item from ListView
+                View view = super.getView(position,convertView,parent);
+
+                // Get the Layout Parameters for ListView Current Item View
+                ViewGroup.LayoutParams params = view.getLayoutParams();
+
+                // Set the height of the Item View
+                params.height = 300;
+                view.setLayoutParams(params);
+
+                return view;
+            }
+        };
 
 
         listView.setAdapter(adapter);
@@ -110,7 +126,11 @@ public class ClassesFragment extends android.app.Fragment {
                         {
                             String co_name = co_item.child("subject_code").getValue(String.class) + " " +
                                     co_item.child("course_no").getValue(String.class) + " - " +
-                                    co_item.child("course_title").getValue(String.class);
+                                    co_item.child("course_title").getValue(String.class)+" \n Sec #: " +
+                                    co_item.child("sec").getValue(String.class) +", Times:  "+
+                                    co_item.child("days").getValue(String.class)+" "+
+                                    co_item.child("time").getValue(String.class)+
+                                    ", Instructor: "+ co_item.child("instructor").getValue(String.class);
 
                             courses.add(co_name);
                         }

@@ -172,7 +172,7 @@ public class AddBuddies extends AppCompatActivity
                             Toast.makeText(getApplicationContext(),
                                     "You selected " + cb.getText() +
                                             " to be added as a buddy ",
-                                    Toast.LENGTH_LONG).show();
+                                    Toast.LENGTH_SHORT).show();
                             buddy.setSelected(cb.isChecked());
                         }
                         else
@@ -180,7 +180,7 @@ public class AddBuddies extends AppCompatActivity
                             Toast.makeText(getApplicationContext(),
                                     "You unselected " + cb.getText() +
                                             " to be added as a buddy ",
-                                    Toast.LENGTH_LONG).show();
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
