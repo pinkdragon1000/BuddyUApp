@@ -1,4 +1,5 @@
 package com.example.sitar.buddyuapp;
+
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -33,37 +34,50 @@ class Buddy {
     //String code = null;
     String name = null;
     boolean selected = false;
+    String uid = null;
 
-    public Buddy(String name, boolean selected) {
+    public Buddy(String name, boolean selected, String uid) {
         super();
         //this.code = code;
         this.name = name;
         this.selected = selected;
+        this.uid = uid;
     }
 
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUID() {
+        return uid;
+    }
+
+    public void setUID(String uid) {
+        this.uid = uid;
     }
 
     public boolean isSelected() {
         return selected;
     }
+
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
+
 }
 
-public class AddBuddies extends AppCompatActivity
-{
+public class AddBuddies extends AppCompatActivity {
 
     MyCustomAdapter dataAdapter = null;
 
     private FirebaseAuth firebaseAuth;
     private StorageReference mstorage;
+    private DatabaseReference mybuddies;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +87,7 @@ public class AddBuddies extends AppCompatActivity
         //Generate list View from ArrayList
         displayListView();
 
-        checkButtonClick();
+        //checkButtonClick();
 
     }
 
@@ -81,16 +95,17 @@ public class AddBuddies extends AppCompatActivity
 
         //Array list of countries
         final ArrayList<Buddy> buddiesList = new ArrayList<Buddy>();
-        firebaseAuth=firebaseAuth.getInstance();
-        mstorage= FirebaseStorage.getInstance().getReference();
-        final String UID =firebaseAuth.getCurrentUser().getUid();
-        StorageReference filepath=mstorage.child("Users/"+UID);
+        firebaseAuth = firebaseAuth.getInstance();
+        mstorage = FirebaseStorage.getInstance().getReference();
+        final String UID = firebaseAuth.getCurrentUser().getUid();
+        StorageReference filepath = mstorage.child("Users/" + UID);
         DatabaseReference users = FirebaseDatabase.getInstance().getReference("Users2");
+        mybuddies = FirebaseDatabase.getInstance().getReference("mybuddies/" + UID);
         //String Email=firebaseAuth.getCurrentUser().getEmail();
         //Buddy buddy = new Buddy(filepath,Email,false);
         //buddiesList.add(buddy);
         Buddy buddy;
-        buddy= new Buddy("Albania",true);
+        //buddy= new Buddy("Albania",true);
 
         //create an ArrayAdaptar from the String Array
         dataAdapter = new MyCustomAdapter(this,
@@ -102,19 +117,42 @@ public class AddBuddies extends AppCompatActivity
         users.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot u: dataSnapshot.getChildren())
-                {
+                for (DataSnapshot u : dataSnapshot.getChildren()) {
                     Log.d("blah", UID + " " + u.toString());
-                    if(UID.equals(u.getKey()))
+                    if (UID.equals(u.getKey()))
                         continue;
-                    Buddy buddy = new Buddy(u.child("name").getValue(String.class),false);
+                    Buddy buddy = new Buddy(u.child("name").getValue(String.class), false, u.getKey());
                     buddiesList.add(buddy);
                 }
                 dataAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        mybuddies.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (int x = 0; x < buddiesList.size(); x++) {
+                    buddiesList.get(x).setSelected(false);
+                }
+                for (DataSnapshot u : dataSnapshot.getChildren()) {
+                    for (int y = 0; y < buddiesList.size(); y++) {
+
+                        if (u.getValue().equals(buddiesList.get(y).getUID())) {
+                            buddiesList.get(y).setSelected(true);
+                        }
+                    }
+                }
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
         });
 
 
@@ -154,38 +192,44 @@ public class AddBuddies extends AppCompatActivity
             Log.v("ConvertView", String.valueOf(position));
 
             if (convertView == null) {
-                LayoutInflater vi = (LayoutInflater)getSystemService(
+                LayoutInflater vi = (LayoutInflater) getSystemService(
                         Context.LAYOUT_INFLATER_SERVICE);
                 convertView = vi.inflate(R.layout.pick_buddies, null);
 
                 holder = new ViewHolder();
-               // holder.code = (TextView) convertView.findViewById(R.id.code);
+                // holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 convertView.setTag(holder);
 
-                holder.name.setOnClickListener( new View.OnClickListener() {
+                holder.name.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        CheckBox cb = (CheckBox) v ;
+                        CheckBox cb = (CheckBox) v;
                         Buddy buddy = (Buddy) cb.getTag();
-                        if(cb.isChecked())
-                        {
+                        buddy.setSelected(cb.isChecked());
+                        if (cb.isChecked()) {
                             Toast.makeText(getApplicationContext(),
                                     "You selected " + cb.getText() +
                                             " to be added as a buddy ",
                                     Toast.LENGTH_SHORT).show();
-                            buddy.setSelected(cb.isChecked());
-                        }
-                        else
-                        {
+                        } else {
                             Toast.makeText(getApplicationContext(),
                                     "You unselected " + cb.getText() +
                                             " to be added as a buddy ",
                                     Toast.LENGTH_SHORT).show();
                         }
+
+                        mybuddies.removeValue();
+                        for (int x = 0; x < buddiesList.size(); x++) {
+                            Buddy b = buddiesList.get(x);
+                            if (b.isSelected()) {
+                                DatabaseReference r = mybuddies.push();
+                                r.setValue(b.getUID());
+                            }
+                        }
+
                     }
                 });
-            }
-            else {
+            } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
@@ -202,10 +246,10 @@ public class AddBuddies extends AppCompatActivity
 
     }
 
-    private void checkButtonClick() {
+    //private void checkButtonClick() {
 
 
-        Button myButton = (Button) findViewById(R.id.findSelected);
+      /*  Button myButton = (Button) findViewById(R.id.findSelected);
         myButton.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -225,9 +269,11 @@ public class AddBuddies extends AppCompatActivity
                 Toast.makeText(getApplicationContext(),
                         responseText, Toast.LENGTH_LONG).show();
 
+
             }
         });
+        */
 
-    }
+    //}
 
 }

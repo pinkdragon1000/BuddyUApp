@@ -75,7 +75,7 @@
         android:textColor="#ffffff"
         android:id="@+id/buddy_requests"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="100px"
         android:layout_marginTop="31dp"
         android:text="Buddy Requests"
         android:layout_below="@+id/yourbuddiesbtn"

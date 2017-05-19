@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity
         TermsAndConditions.OnFragmentInteractionListener,
         BuddyRequests.OnFragmentInteractionListener,
         ReportProblem.OnFragmentInteractionListener,
+        ScheduleFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
 
@@ -113,9 +114,9 @@ public class MainActivity extends AppCompatActivity
         {
             getFragmentManager().beginTransaction().replace(R.id.content_main, new ClassesFragment()).commit();
         }
-        else if (id == R.id.nav_calendar)
+        else if (id == R.id.nav_schedule)
         {
-            getFragmentManager().beginTransaction().replace(R.id.content_main, new CalendarFragment()).commit();
+            getFragmentManager().beginTransaction().replace(R.id.content_main, new ScheduleFragment()).commit();
 
         } else if (id == R.id.nav_profile)
         {

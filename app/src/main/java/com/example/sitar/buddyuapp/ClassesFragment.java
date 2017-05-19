@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -30,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -38,6 +42,7 @@ import java.util.Map;
  * Use the {@link ClassesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class ClassesFragment extends android.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,7 +57,9 @@ public class ClassesFragment extends android.app.Fragment {
 
     private FirebaseAuth firebaseAuth;
     private ListView listView;
+    private DatabaseReference mycourses;
 
+    MyCustomAdapter2 dataAdapter = null;
 
     private OnFragmentInteractionListener mListener;
 
@@ -79,21 +86,22 @@ public class ClassesFragment extends android.app.Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-        {
-        firebaseAuth=firebaseAuth.getInstance();
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        firebaseAuth = firebaseAuth.getInstance();
+        final String UID =firebaseAuth.getCurrentUser().getUid();
         DatabaseReference catalog = FirebaseDatabase.getInstance().getReference("Catalog");
+        mycourses=FirebaseDatabase.getInstance().getReference("mycourses/"+UID);
         listView = (ListView) view.findViewById(R.id.courses);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        final ArrayList courses = new ArrayList();
+        final ArrayList<Course> courses = new ArrayList();
 
+        /*
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
-                android.R.layout.simple_list_item_multiple_choice, courses)
-        {
+                android.R.layout.simple_list_item_multiple_choice, (ArrayList) courses) {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent){
+            public View getView(int position, View convertView, ViewGroup parent) {
                 // Get the current item from ListView
-                View view = super.getView(position,convertView,parent);
+                View view = super.getView(position, convertView, parent);
 
                 // Get the Layout Parameters for ListView Current Item View
                 ViewGroup.LayoutParams params = view.getLayoutParams();
@@ -105,55 +113,94 @@ public class ClassesFragment extends android.app.Fragment {
                 return view;
             }
         };
+        */
+        dataAdapter = new MyCustomAdapter2(getActivity(),
+                R.layout.pick_courses, courses);
 
 
-        listView.setAdapter(adapter);
+        listView.setAdapter(dataAdapter);
 
 
         catalog.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot c_item: dataSnapshot.getChildren())
-                {
-                    String c_name=c_item.child("college").getValue(String.class);
+                for (DataSnapshot c_item : dataSnapshot.getChildren()) {
+                    String c_name = c_item.child("college").getValue(String.class);
 
-                    for (DataSnapshot s_item: c_item.child("subjects").getChildren())
-                    {
+                    for (DataSnapshot s_item : c_item.child("subjects").getChildren()) {
                         String s_name = s_item.child("subject").getValue(String.class);
-                        courses.add("> " + c_name + " / " + s_name);
+                        courses.add(new Course("> " + c_name + " / " + s_name,false, null));
 
-                        for (DataSnapshot co_item: s_item.child("courses").getChildren())
-                        {
+                        for (DataSnapshot co_item : s_item.child("courses").getChildren()) {
                             String co_name = co_item.child("subject_code").getValue(String.class) + " " +
                                     co_item.child("course_no").getValue(String.class) + " - " +
-                                    co_item.child("course_title").getValue(String.class)+" \n Sec #: " +
-                                    co_item.child("sec").getValue(String.class) +", Times:  "+
-                                    co_item.child("days").getValue(String.class)+" "+
-                                    co_item.child("time").getValue(String.class)+
-                                    ", Instructor: "+ co_item.child("instructor").getValue(String.class);
+                                    co_item.child("course_title").getValue(String.class) + " \n Sec #: " +
+                                    co_item.child("sec").getValue(String.class) + ", Times:  " +
+                                    co_item.child("days").getValue(String.class) + " " +
+                                    co_item.child("time").getValue(String.class) +
+                                    ", Instructor: " + co_item.child("instructor").getValue(String.class);
 
-                            courses.add(co_name);
+                            courses.add(new Course(co_name,false,co_item.child("crn").getValue(String.class)));
                         }
                     }
                 }
-                adapter.notifyDataSetChanged();
+                dataAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         });
+        mycourses.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (int x = 0; x < courses.size(); x++) {
+                     courses.get(x).setSelected(false);
+                }
+                for (DataSnapshot u : dataSnapshot.getChildren()) {
+                    for (int y = 0; y < courses.size(); y++) {
+
+                        if (u.getValue().equals(courses.get(y).getCRN())) {
+                            courses.get(y).setSelected(true);
+                        }
+                    }
+                }
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         final Activity thisActivity = this.getActivity();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+     /*   listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG,"Item clicked "+ position);
+                Log.d(TAG, "Item clicked " + position);
+                Log.d(TAG, "Item " + courses.get(position));
+                Log.d(TAG, "Item CRN "+((Course)courses.get(position)).getCRN());
+
+                ((Course)courses.get(position)).setSelected(listView.isItemChecked(position));
+
+                mycourses.removeValue();
+                for (int x = 0; x < courses.size(); x++) {
+                    Course b =(Course) courses.get(x);
+                    if (b.isSelected()) {
+                        DatabaseReference r = mycourses.push();
+                        r.setValue(b.getCRN());
+                    }
+                }
+
             }
         });
+        */
 
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -209,4 +256,83 @@ public class ClassesFragment extends android.app.Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    private class MyCustomAdapter2 extends ArrayAdapter<Course> {
+
+        private ArrayList<Course> courses;
+
+        public MyCustomAdapter2(Context context, int textViewResourceId,
+                               ArrayList<Course> courses) {
+            super(context, textViewResourceId, courses);
+            this.courses = courses;//new ArrayList<Buddy>();
+            //this.buddiesList.addAll(buddiesList);
+        }
+
+        private class ViewHolder {
+            //TextView code;
+            CheckBox name;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ClassesFragment.MyCustomAdapter2.ViewHolder holder = null;
+            Log.v("ConvertView", String.valueOf(position));
+
+            if (convertView == null) {
+                LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(
+                        Context.LAYOUT_INFLATER_SERVICE);
+                convertView = vi.inflate(R.layout.pick_courses, null);
+
+                holder = new ClassesFragment.MyCustomAdapter2.ViewHolder();
+                // holder.code = (TextView) convertView.findViewById(R.id.code);
+                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+                convertView.setTag(holder);
+
+                holder.name.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        CheckBox cb = (CheckBox) v;
+                        Course course = (Course) cb.getTag();
+                        course.setSelected(cb.isChecked());
+                        if (cb.isChecked()) {
+                            Toast.makeText(getApplicationContext(),
+                                    "You selected " + cb.getText() +
+                                            " to be added as a buddy ",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "You unselected " + cb.getText() +
+                                            " to be added as a buddy ",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        mycourses.removeValue();
+                        for (int x = 0; x < courses.size(); x++) {
+                            Course b = courses.get(x);
+                            if (b.isSelected()) {
+                                DatabaseReference r = mycourses.push();
+                                r.setValue(b.getCRN());
+                            }
+                        }
+
+                    }
+                });
+            } else {
+                holder = (ClassesFragment.MyCustomAdapter2.ViewHolder) convertView.getTag();
+            }
+
+            //if (position > 0) {
+            Course course = courses.get(position);
+            //holder.code.setText(" (" + buddy.getCode() + ")");
+            holder.name.setText(course.getName());
+            holder.name.setChecked(course.isSelected());
+            holder.name.setTag(course);
+            //}
+            return convertView;
+
+        }
+
+    }
+
 }
+
