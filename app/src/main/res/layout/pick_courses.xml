@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="6dip" >
+    android:padding="6dp" >
 
     <CheckBox
         android:id="@+id/checkBox1"
@@ -12,6 +12,8 @@
         android:layout_alignParentLeft="true"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:textColor="#7b7b7b"
+        android:textSize="40px"
         android:text="CheckBox" />
 
 

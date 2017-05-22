@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +13,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import static com.example.sitar.buddyuapp.R.id.courses;
 
@@ -28,6 +33,26 @@ import static com.example.sitar.buddyuapp.R.id.courses;
  * Use the {@link ScheduleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+class Item {
+    Item(String day, String description) {
+        this.day = day;
+        this.description = description;
+    }
+
+    private String day;
+    private String description;
+
+    public String getDay()
+    {
+        return day;
+    }
+    public String getDescription()
+    {
+        return description;
+    }
+
+
+}
 public class ScheduleFragment extends android.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +61,8 @@ public class ScheduleFragment extends android.app.Fragment {
     private TextView mySchedule;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference myCourses;
+    private DatabaseReference catalog;
+    private ArrayList<Item> items;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,6 +92,49 @@ public class ScheduleFragment extends android.app.Fragment {
         return fragment;
     }
 
+    private String itemsForDay(String day)
+    {
+        String temp="";
+        for(int x=0;x<items.size();x++)
+        {
+            if (day.equals("TBD") && items.get(x).getDay().contains("TBD"))
+            {
+                temp +=items.get(x).getDescription()+"<br> <br>";
+            }
+            else if(!day.equals("TBD") && items.get(x).getDay().contains(day)&& !items.get(x).getDay().contains("TBD"))
+            {
+                temp +=items.get(x).getDescription()+"<br> <br>";
+            }
+
+        }
+        return temp;
+    }
+
+    private void updateItems()
+    {
+        String data="";
+        data += "<p><b><font color=\"#6ac6aF\"> Day TBD </font></b> <br>";
+        data += itemsForDay("TBD");
+        data += "<p><b><font color=\"#6ac6aF\"> Monday </font> </b> <br>";
+        data += itemsForDay("M");
+        data +="</p>";
+        data += "<p><b><font color=\"#6ac6aF\"> Tuesday </font> </b> <br>";
+        data += itemsForDay("T");
+        data +="</p>";
+        data += "<p><b><font color=\"#6ac6aF\"> Wednesday </font> </b> <br>";
+        data += itemsForDay("W");
+        data +="</p>";
+        data += "<p><b><font color=\"#6ac6aF\"> Thursday </font> </b> <br>";
+        data += itemsForDay("R");
+        data +="</p>";
+        data += "<p><b><font color=\"#6ac6aF\"> Friday </font> </b> <br>";
+        data += itemsForDay("F");
+        data +="</p>";
+
+
+        mySchedule.setText(Html.fromHtml(data));
+
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,10 +154,15 @@ public class ScheduleFragment extends android.app.Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        items=new ArrayList<Item>();
         firebaseAuth = firebaseAuth.getInstance();
         mySchedule= (TextView) view.findViewById(R.id.my_schedule);
         final String UID =firebaseAuth.getCurrentUser().getUid();
         myCourses= FirebaseDatabase.getInstance().getReference("mycourses/"+UID);
+        catalog=FirebaseDatabase.getInstance().getReference("Catalog");
+
+        ((TextView)view.findViewById(R.id.my_schedule))
+                .setMovementMethod(new ScrollingMovementMethod());
         myCourses.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -96,10 +171,12 @@ public class ScheduleFragment extends android.app.Fragment {
                     courses.get(x).setSelected(false);
                 }
                 */
-                String s="";
+                //String s="";
+                mySchedule.setText("");
+                items.clear();
                 for (DataSnapshot u : dataSnapshot.getChildren()) {
                     Log.d("blah",u.getValue().toString());
-                    s=s+u.getValue().toString()+"\n";
+                   // s=s+u.getValue().toString()+"\n";
                     /*
                     for (int y = 0; y < courses.size(); y++) {
 
@@ -108,8 +185,52 @@ public class ScheduleFragment extends android.app.Fragment {
                         }
                     }
                     */
+                    final String currentCRN=u.getValue().toString();
+
+                    catalog.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot c_item : dataSnapshot.getChildren()) {
+                                String c_name = c_item.child("college").getValue(String.class);
+
+
+                                for (DataSnapshot s_item : c_item.child("subjects").getChildren()) {
+                                    String s_name = s_item.child("subject").getValue(String.class);
+
+                                    for (DataSnapshot co_item : s_item.child("courses").getChildren()) {
+                                        if (co_item.child("crn").getValue(String.class).equals(currentCRN)) {
+                                            String co_name = co_item.child("subject_code").getValue(String.class) + " " +
+                                                    co_item.child("course_no").getValue(String.class) + " - " +
+                                                    co_item.child("course_title").getValue(String.class)+ " <br> Sec #: " +
+                                                    co_item.child("sec").getValue(String.class) + "<br> Times:  " +
+                                                    co_item.child("days").getValue(String.class) + " " +
+                                                    co_item.child("time").getValue(String.class) +
+                                                    "<br> Instructor: " + co_item.child("instructor").getValue(String.class)+
+                                                    "<br> CRN #: "+ co_item.child("crn").getValue(String.class);
+
+                                            Log.d("blah4",co_name);
+                                            items.add(new Item(co_item.child("days").getValue(String.class), co_name));
+                                            //mySchedule.setText(mySchedule.getText()+co_name+"\n");
+
+                                            updateItems();
+
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+
+
+
                 }
-                mySchedule.setText(s);
+                //mySchedule.setText(s);
             }
 
 

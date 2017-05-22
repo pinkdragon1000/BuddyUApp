@@ -29,14 +29,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-class Buddy {
+class Buddy2 {
 
     //String code = null;
     String name = null;
     boolean selected = false;
     String uid = null;
 
-    public Buddy(String name, boolean selected, String uid) {
+    public Buddy2(String name, boolean selected, String uid) {
         super();
         //this.code = code;
         this.name = name;
@@ -71,14 +71,14 @@ class Buddy {
 
 }
 
+
 public class AddBuddies extends AppCompatActivity {
 
-    MyCustomAdapter dataAdapter = null;
+    MyCustomAdapter2 dataAdapter = null;
 
     private FirebaseAuth firebaseAuth;
     private StorageReference mstorage;
     private DatabaseReference mybuddies;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,13 +88,12 @@ public class AddBuddies extends AppCompatActivity {
         displayListView();
 
         //checkButtonClick();
-
     }
 
     private void displayListView() {
 
         //Array list of countries
-        final ArrayList<Buddy> buddiesList = new ArrayList<Buddy>();
+        final ArrayList<Buddy2> buddiesList = new ArrayList<Buddy2>();
         firebaseAuth = firebaseAuth.getInstance();
         mstorage = FirebaseStorage.getInstance().getReference();
         final String UID = firebaseAuth.getCurrentUser().getUid();
@@ -104,11 +103,11 @@ public class AddBuddies extends AppCompatActivity {
         //String Email=firebaseAuth.getCurrentUser().getEmail();
         //Buddy buddy = new Buddy(filepath,Email,false);
         //buddiesList.add(buddy);
-        Buddy buddy;
+        Buddy2 buddy;
         //buddy= new Buddy("Albania",true);
 
         //create an ArrayAdaptar from the String Array
-        dataAdapter = new MyCustomAdapter(this,
+        dataAdapter = new MyCustomAdapter2(this,
                 R.layout.pick_buddies, buddiesList);
         ListView listView = (ListView) findViewById(R.id.listView1);
         // Assign adapter to ListView
@@ -121,7 +120,7 @@ public class AddBuddies extends AppCompatActivity {
                     Log.d("blah", UID + " " + u.toString());
                     if (UID.equals(u.getKey()))
                         continue;
-                    Buddy buddy = new Buddy(u.child("name").getValue(String.class), false, u.getKey());
+                    Buddy2 buddy = new Buddy2(u.child("name").getValue(String.class), false, u.getKey());
                     buddiesList.add(buddy);
                 }
                 dataAdapter.notifyDataSetChanged();
@@ -160,7 +159,7 @@ public class AddBuddies extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // When clicked, show a toast with the TextView text
-                Buddy buddy = (Buddy) parent.getItemAtPosition(position);
+                Buddy2 buddy = (Buddy2) parent.getItemAtPosition(position);
                 Toast.makeText(getApplicationContext(),
                         "Clicked on Row: " + buddy.getName(),
                         Toast.LENGTH_LONG).show();
@@ -169,12 +168,12 @@ public class AddBuddies extends AppCompatActivity {
 
     }
 
-    private class MyCustomAdapter extends ArrayAdapter<Buddy> {
+    private class MyCustomAdapter2 extends ArrayAdapter<Buddy2> {
 
-        private ArrayList<Buddy> buddiesList;
+        private ArrayList<Buddy2> buddiesList;
 
-        public MyCustomAdapter(Context context, int textViewResourceId,
-                               ArrayList<Buddy> buddiesList) {
+        public MyCustomAdapter2(Context context, int textViewResourceId,
+                               ArrayList<Buddy2> buddiesList) {
             super(context, textViewResourceId, buddiesList);
             this.buddiesList = buddiesList;//new ArrayList<Buddy>();
             //this.buddiesList.addAll(buddiesList);
@@ -204,7 +203,7 @@ public class AddBuddies extends AppCompatActivity {
                 holder.name.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v;
-                        Buddy buddy = (Buddy) cb.getTag();
+                        Buddy2 buddy = (Buddy2) cb.getTag();
                         buddy.setSelected(cb.isChecked());
                         if (cb.isChecked()) {
                             Toast.makeText(getApplicationContext(),
@@ -220,7 +219,7 @@ public class AddBuddies extends AppCompatActivity {
 
                         mybuddies.removeValue();
                         for (int x = 0; x < buddiesList.size(); x++) {
-                            Buddy b = buddiesList.get(x);
+                            Buddy2 b = buddiesList.get(x);
                             if (b.isSelected()) {
                                 DatabaseReference r = mybuddies.push();
                                 r.setValue(b.getUID());
@@ -234,7 +233,7 @@ public class AddBuddies extends AppCompatActivity {
             }
 
             //if (position > 0) {
-            Buddy buddy = buddiesList.get(position);
+            Buddy2 buddy = buddiesList.get(position);
             //holder.code.setText(" (" + buddy.getCode() + ")");
             holder.name.setText(buddy.getName());
             holder.name.setChecked(buddy.isSelected());
@@ -245,7 +244,6 @@ public class AddBuddies extends AppCompatActivity {
         }
 
     }
-
     //private void checkButtonClick() {
 
 
@@ -258,9 +256,9 @@ public class AddBuddies extends AppCompatActivity {
                 StringBuffer responseText = new StringBuffer();
                 responseText.append("The following were selected...\n");
 
-                ArrayList<Buddy> buddiesList = dataAdapter.buddiesList;
+                ArrayList<Buddy2> buddiesList = dataAdapter.buddiesList;
                 for(int i=0;i<buddiesList.size();i++){
-                    Buddy buddy = buddiesList.get(i);
+                    Buddy2 buddy = buddiesList.get(i);
                     if(buddy.isSelected()){
                         responseText.append("\n" + buddy.getName());
                     }

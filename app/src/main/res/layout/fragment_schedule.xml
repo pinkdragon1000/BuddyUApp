@@ -1,4 +1,3 @@
-
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -11,15 +10,16 @@
 
         <TextView android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:padding="10dp"
-            android:text="Your Schedule" android:textSize="20sp"
+            android:text="Your Schedule" android:textSize="70px"
             android:gravity="center"/>
-
 
         <TextView
             android:id="@+id/my_schedule"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="40px"
+            android:scrollbars="vertical"/>
 
     </LinearLayout>
 

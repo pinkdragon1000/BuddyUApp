@@ -5,9 +5,28 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 /**
@@ -18,6 +37,47 @@ import android.view.ViewGroup;
  * Use the {@link YourBuddiesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+class Buddy {
+
+    //String code = null;
+    String name = null;
+    boolean selected = false;
+    String uid = null;
+
+    public Buddy(String name, boolean selected, String uid) {
+        super();
+        //this.code = code;
+        this.name = name;
+        this.selected = selected;
+        this.uid = uid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUID() {
+        return uid;
+    }
+
+    public void setUID(String uid) {
+        this.uid = uid;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+
+}
 public class YourBuddiesFragment extends android.app.Fragment
 {
     // TODO: Rename parameter arguments, choose names that match
@@ -28,6 +88,13 @@ public class YourBuddiesFragment extends android.app.Fragment
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    YourBuddiesFragment.MyCustomAdapter dataAdapter = null;
+
+    private FirebaseAuth firebaseAuth;
+    private StorageReference mstorage;
+    private DatabaseReference mybuddies;
+    private ListView listView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,10 +131,90 @@ public class YourBuddiesFragment extends android.app.Fragment
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+    }
+
+    private void displayListView() {
+
+        //Array list of countries
+        final ArrayList<Buddy> buddiesList = new ArrayList<Buddy>();
+        firebaseAuth = firebaseAuth.getInstance();
+        mstorage = FirebaseStorage.getInstance().getReference();
+        final String UID = firebaseAuth.getCurrentUser().getUid();
+        StorageReference filepath = mstorage.child("Users/" + UID);
+        DatabaseReference users = FirebaseDatabase.getInstance().getReference("Users2");
+        mybuddies = FirebaseDatabase.getInstance().getReference("mybuddies/" + UID);
+        //String Email=firebaseAuth.getCurrentUser().getEmail();
+        //Buddy buddy = new Buddy(filepath,Email,false);
+        //buddiesList.add(buddy);
+        Buddy buddy;
+        //buddy= new Buddy("Albania",true);
+
+        //create an ArrayAdaptar from the String Array
+        dataAdapter = new MyCustomAdapter(getActivity(),
+                R.layout.pick_buddies, buddiesList);
+
+        // Assign adapter to ListView
+        listView.setAdapter(dataAdapter);
+
+        users.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot u : dataSnapshot.getChildren()) {
+                    Log.d("blah", UID + " " + u.toString());
+                    if (UID.equals(u.getKey()))
+                        continue;
+                    Buddy buddy = new Buddy(u.child("name").getValue(String.class), false, u.getKey());
+                    buddiesList.add(buddy);
+                }
+                dataAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        mybuddies.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (int x = 0; x < buddiesList.size(); x++) {
+                    buddiesList.get(x).setSelected(false);
+                }
+                for (DataSnapshot u : dataSnapshot.getChildren()) {
+                    for (int y = 0; y < buddiesList.size(); y++) {
+
+                        if (u.getValue().equals(buddiesList.get(y).getUID())) {
+                            buddiesList.get(y).setSelected(true);
+                        }
+                    }
+                }
+                dataAdapter.notifyDataSetChanged();
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // When clicked, show a toast with the TextView text
+                Buddy buddy = (Buddy) parent.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(),
+                        "Clicked on Row: " + buddy.getName(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        view.findViewById(R.id.addBuddiesButton).setOnClickListener(new View.OnClickListener() {
+/*        view.findViewById(R.id.addBuddiesButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
@@ -75,6 +222,10 @@ public class YourBuddiesFragment extends android.app.Fragment
                 startActivity(intent);
             }
         });
+        */
+        listView = (ListView) view.findViewById(R.id.yourbuddies);
+        displayListView();
+
     }
 
     @Override
@@ -124,4 +275,83 @@ public class YourBuddiesFragment extends android.app.Fragment
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+    private class MyCustomAdapter extends ArrayAdapter<Buddy> {
+
+        private ArrayList<Buddy> buddiesList;
+
+        public MyCustomAdapter(Context context, int textViewResourceId,
+                               ArrayList<Buddy> buddiesList) {
+            super(context, textViewResourceId, buddiesList);
+            this.buddiesList = buddiesList;//new ArrayList<Buddy>();
+            //this.buddiesList.addAll(buddiesList);
+        }
+
+        private class ViewHolder {
+            //TextView code;
+            CheckBox name;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            YourBuddiesFragment.MyCustomAdapter.ViewHolder holder = null;
+            Log.v("ConvertView", String.valueOf(position));
+
+            if (convertView == null) {
+               LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(
+                        Context.LAYOUT_INFLATER_SERVICE);
+               convertView = vi.inflate(R.layout.pick_buddies, null);
+
+                holder = new YourBuddiesFragment.MyCustomAdapter.ViewHolder();
+                // holder.code = (TextView) convertView.findViewById(R.id.code);
+                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+                convertView.setTag(holder);
+
+                holder.name.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        CheckBox cb = (CheckBox) v;
+                        Buddy buddy = (Buddy) cb.getTag();
+                        buddy.setSelected(cb.isChecked());
+                        if (cb.isChecked()) {
+                            Toast.makeText(getApplicationContext(),
+                                    "You selected " + cb.getText() +
+                                            " to be added as a buddy ",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "You unselected " + cb.getText() +
+                                            " to be added as a buddy ",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        mybuddies.removeValue();
+                        for (int x = 0; x < buddiesList.size(); x++) {
+                            Buddy b = buddiesList.get(x);
+                            if (b.isSelected()) {
+                                DatabaseReference r = mybuddies.push();
+                                r.setValue(b.getUID());
+                            }
+                        }
+
+                    }
+                });
+            } else {
+                holder = (YourBuddiesFragment.MyCustomAdapter.ViewHolder) convertView.getTag();
+            }
+
+            //if (position > 0) {
+            Buddy buddy = buddiesList.get(position);
+            //holder.code.setText(" (" + buddy.getCode() + ")");
+            holder.name.setText(buddy.getName());
+            holder.name.setChecked(buddy.isSelected());
+            holder.name.setTag(buddy);
+            //}
+            return convertView;
+
+        }
+
+    }
+
 }

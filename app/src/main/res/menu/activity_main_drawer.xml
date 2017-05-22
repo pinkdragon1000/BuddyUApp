@@ -4,6 +4,8 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
+            android:gravity="center"
+            android:textSize="70px"
             android:title="Home" />
 
         <item
@@ -17,6 +19,7 @@
             android:title="Schedule" />
         <item
             android:id="@+id/nav_chat"
+            android:enabled="false"
             android:title="Chat" />
 
         <item
