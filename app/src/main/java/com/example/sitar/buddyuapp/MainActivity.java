@@ -105,11 +105,12 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             getFragmentManager().beginTransaction().replace(R.id.content_main, new HomeFragment()).commit();
         }
-
+/*
         else if (id == R.id.nav_chat)
         {
             getFragmentManager().beginTransaction().replace(R.id.content_main, new ChatGroupsFragment()).commit();
         }
+        */
         else if(id==R.id.nav_classes)
         {
             getFragmentManager().beginTransaction().replace(R.id.content_main, new ClassesFragment()).commit();

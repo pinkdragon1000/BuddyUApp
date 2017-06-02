@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -214,7 +215,7 @@ public class YourBuddiesFragment extends android.app.Fragment
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-/*        view.findViewById(R.id.addBuddiesButton).setOnClickListener(new View.OnClickListener() {
+    /* view.findViewById(R.id.buddiesSchedule).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
@@ -291,6 +292,7 @@ public class YourBuddiesFragment extends android.app.Fragment
         private class ViewHolder {
             //TextView code;
             CheckBox name;
+            Button buddiesSchedule;
         }
 
         @Override
@@ -305,7 +307,21 @@ public class YourBuddiesFragment extends android.app.Fragment
                convertView = vi.inflate(R.layout.pick_buddies, null);
 
                 holder = new YourBuddiesFragment.MyCustomAdapter.ViewHolder();
-                // holder.code = (TextView) convertView.findViewById(R.id.code);
+                final YourBuddiesFragment.MyCustomAdapter.ViewHolder vHolder=holder;
+                holder.buddiesSchedule=(Button) convertView.findViewById(R.id.buddiesSchedule);
+
+                holder.buddiesSchedule.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v){
+                        Bundle args=new Bundle();
+                        Buddy buddy=(Buddy)v.getTag();
+                        args.putString("UID", buddy.getUID());
+                        args.putString("Name",buddy.getName());
+                        ScheduleFragment schFragment=new ScheduleFragment();
+                        schFragment.setArguments(args);
+                        getFragmentManager().beginTransaction().replace(R.id.content_main, schFragment).commit();
+                    }
+                });
+
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 convertView.setTag(holder);
 
@@ -313,16 +329,18 @@ public class YourBuddiesFragment extends android.app.Fragment
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v;
                         Buddy buddy = (Buddy) cb.getTag();
-                        buddy.setSelected(cb.isChecked());
+                        if (buddy.isSelected() != cb.isChecked())
+                            buddy.setSelected(cb.isChecked());
+                        vHolder.buddiesSchedule.setVisibility(cb.isChecked()?View.VISIBLE:View.INVISIBLE);
                         if (cb.isChecked()) {
                             Toast.makeText(getApplicationContext(),
-                                    "You selected " + cb.getText() +
-                                            " to be added as a buddy ",
+                                    "You added " + cb.getText() +
+                                            " as a buddy",
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(),
-                                    "You unselected " + cb.getText() +
-                                            " to be added as a buddy ",
+                                    "You removed " + cb.getText() +
+                                            " as a buddy",
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -347,6 +365,8 @@ public class YourBuddiesFragment extends android.app.Fragment
             holder.name.setText(buddy.getName());
             holder.name.setChecked(buddy.isSelected());
             holder.name.setTag(buddy);
+            holder.buddiesSchedule.setTag(buddy);
+            holder.buddiesSchedule.setVisibility(buddy.isSelected()?View.VISIBLE:View.INVISIBLE);
             //}
             return convertView;
 

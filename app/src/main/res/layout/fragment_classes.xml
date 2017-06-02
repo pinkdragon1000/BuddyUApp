@@ -8,6 +8,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
+
     <TextView
         android:id="@+id/classes"
         android:layout_width="match_parent"
@@ -16,6 +17,13 @@
         android:text="Classes"
         android:gravity="center"
         android:textSize="70px" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchClasses"
+        android:maxLines="1"
+        android:hint="Search for a class..."/>
 
     <ListView
         android:id="@+id/courses"

@@ -25,7 +25,7 @@ public class Course {
         public void setName(String name) {
             this.name = name;
         }
-        public String getCRN() { return crn;}
+        public String getCRN() { return crn==null?"":crn;}
         public void setCRN(String crn){this.crn=crn;}
 
         public boolean isSelected() {

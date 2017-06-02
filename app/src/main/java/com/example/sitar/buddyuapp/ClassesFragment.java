@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -120,6 +126,21 @@ public class ClassesFragment extends android.app.Fragment {
 
         listView.setAdapter(dataAdapter);
 
+        EditText classSearch=(EditText)view.findViewById(R.id.searchClasses);
+        classSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+               dataAdapter.getFilter().filter(cs);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {}
+        });
 
         catalog.addValueEventListener(new ValueEventListener() {
             @Override
@@ -257,20 +278,70 @@ public class ClassesFragment extends android.app.Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private class MyCustomAdapter2 extends ArrayAdapter<Course> {
+    private class MyCustomAdapter2 extends ArrayAdapter<Course> implements Filterable {
 
         private ArrayList<Course> courses;
+        private ArrayList<Course> coursesCopy;
 
         public MyCustomAdapter2(Context context, int textViewResourceId,
                                ArrayList<Course> courses) {
             super(context, textViewResourceId, courses);
             this.courses = courses;//new ArrayList<Buddy>();
+            this.coursesCopy=courses;
             //this.buddiesList.addAll(buddiesList);
         }
 
         private class ViewHolder {
             //TextView code;
             CheckBox name;
+            TextView section;
+        }
+
+        public int getCount()
+        {
+            return courses.size();
+        }
+
+        @Override
+        public Filter getFilter() {
+
+            Filter filter = new Filter() {
+
+                @SuppressWarnings("unchecked")
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                    courses = (ArrayList<Course>) results.values;
+                    notifyDataSetChanged();
+
+                }
+
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+
+                    FilterResults results = new FilterResults();
+                    ArrayList<Course> filteredArrayCourses = new ArrayList<Course>();
+
+                    // perform your search here using the searchConstraint String.
+                    for(int x=0;x<coursesCopy.size();x++)
+                    {
+                        if(coursesCopy.get(x).getName().toUpperCase().contains(constraint.toString().toUpperCase())||constraint.equals(""))
+                        {
+                            filteredArrayCourses.add(coursesCopy.get(x));
+                        }
+                    }
+
+
+                    results.count = filteredArrayCourses.size();
+                    results.values = filteredArrayCourses;
+                    Log.e("VALUES", results.values.toString());
+
+                    return results;
+                }
+            };
+
+            return filter;
+
         }
 
         @Override
@@ -288,6 +359,7 @@ public class ClassesFragment extends android.app.Fragment {
                 // holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 convertView.setTag(holder);
+                holder.section=(TextView) convertView.findViewById(R.id.textView1);
 
                 holder.name.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
@@ -321,16 +393,20 @@ public class ClassesFragment extends android.app.Fragment {
                 holder = (ClassesFragment.MyCustomAdapter2.ViewHolder) convertView.getTag();
             }
 
-            //if (position > 0) {
+            if (position < courses.size()) {
             Course course = courses.get(position);
             //holder.code.setText(" (" + buddy.getCode() + ")");
             holder.name.setText(course.getName());
+            holder.section.setText(course.getName());
             holder.name.setChecked(course.isSelected());
             holder.name.setTag(course);
-            //}
+            holder.name.setVisibility(course.getCRN().equals("")? View.INVISIBLE:View.VISIBLE);
+            holder.section.setVisibility(!course.getCRN().equals("")? View.INVISIBLE:View.VISIBLE);
+            }
             return convertView;
 
         }
+
 
     }
 

@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static com.example.sitar.buddyuapp.R.id.courses;
 
@@ -34,13 +36,15 @@ import static com.example.sitar.buddyuapp.R.id.courses;
  * create an instance of this fragment.
  */
 class Item {
-    Item(String day, String description) {
+    Item(String day, int time, String description) {
         this.day = day;
         this.description = description;
+        this.time=time;
     }
 
     private String day;
     private String description;
+    private int time;
 
     public String getDay()
     {
@@ -49,6 +53,10 @@ class Item {
     public String getDescription()
     {
         return description;
+    }
+    public int getTime()
+    {
+        return time;
     }
 
 
@@ -63,6 +71,7 @@ public class ScheduleFragment extends android.app.Fragment {
     private DatabaseReference myCourses;
     private DatabaseReference catalog;
     private ArrayList<Item> items;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -112,6 +121,15 @@ public class ScheduleFragment extends android.app.Fragment {
 
     private void updateItems()
     {
+        //Sorts items in order of time
+        Collections.sort(items, new Comparator<Item>() {
+            @Override
+            public int compare(Item lhs, Item rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getTime() < rhs.getTime() ? -1 : (lhs.getTime() > rhs.getTime() ) ? 1 : 0;
+            }
+        });
+
         String data="";
         data += "<p><b><font color=\"#6ac6aF\"> Day TBD </font></b> <br>";
         data += itemsForDay("TBD");
@@ -156,8 +174,22 @@ public class ScheduleFragment extends android.app.Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         items=new ArrayList<Item>();
         firebaseAuth = firebaseAuth.getInstance();
+        TextView userSch=(TextView)view.findViewById(R.id.userSchedule);
         mySchedule= (TextView) view.findViewById(R.id.my_schedule);
-        final String UID =firebaseAuth.getCurrentUser().getUid();
+        String tempUID = firebaseAuth.getCurrentUser().getUid();
+        Bundle bundle = getArguments();
+        if (bundle != null)
+        {
+            String tempUID2 = bundle.getString("UID","");
+            if (!tempUID2.equals(""))
+            {
+                tempUID = tempUID2;
+                userSch.setText("Schedule for "+ bundle.getString("Name","???"));
+
+            }
+        }
+
+        final String UID = tempUID;
         myCourses= FirebaseDatabase.getInstance().getReference("mycourses/"+UID);
         catalog=FirebaseDatabase.getInstance().getReference("Catalog");
 
@@ -176,15 +208,7 @@ public class ScheduleFragment extends android.app.Fragment {
                 items.clear();
                 for (DataSnapshot u : dataSnapshot.getChildren()) {
                     Log.d("blah",u.getValue().toString());
-                   // s=s+u.getValue().toString()+"\n";
-                    /*
-                    for (int y = 0; y < courses.size(); y++) {
 
-                        if (u.getValue().equals(courses.get(y).getCRN())) {
-                            courses.get(y).setSelected(true);
-                        }
-                    }
-                    */
                     final String currentCRN=u.getValue().toString();
 
                     catalog.addValueEventListener(new ValueEventListener() {
@@ -209,16 +233,35 @@ public class ScheduleFragment extends android.app.Fragment {
                                                     "<br> CRN #: "+ co_item.child("crn").getValue(String.class);
 
                                             Log.d("blah4",co_name);
-                                            items.add(new Item(co_item.child("days").getValue(String.class), co_name));
-                                            //mySchedule.setText(mySchedule.getText()+co_name+"\n");
+                                            int iHour=0;
 
-                                            updateItems();
+                                            String sTime=co_item.child("time").getValue(String.class);
+                                            if(sTime.substring(2,3).equals(":"))
+                                            {
+                                                //Parse out the time and convert it to an integer
+                                                String hour=sTime.substring(0,2);
+                                                String minute=sTime.substring(3,5);
+                                                String timeDay=sTime.substring(6,8);
+                                                iHour=Integer.parseInt(hour);
+                                                int iMinute=Integer.parseInt(minute);
+                                                if(timeDay.equals("pm"))
+                                                {
+                                                    //Changes the hour to military time adding 12 Ex. 6pm==1800 hrs
+                                                    iHour+=12;
+                                                }
+                                                iHour=iHour*100+iMinute;
+                                            }
+                                            //Adds classes to schedule
+                                            items.add(new Item(co_item.child("days").getValue(String.class),iHour, co_name));
+
+
+
 
                                         }
                                     }
                                 }
                             }
-
+                            updateItems();
                         }
 
 

@@ -205,6 +205,7 @@ public class ProfileFragment extends android.app.Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.content_main, new YourBuddiesFragment()).commit();
             }
         });
+        /*
         view.findViewById(R.id.buddy_requests).setOnClickListener(new View.OnClickListener() {
             @Override
 
@@ -212,6 +213,7 @@ public class ProfileFragment extends android.app.Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.content_main, new BuddyRequests()).commit();
             }
         });
+        */
     }
 
     // TODO: Rename method, update argument and hook method into UI event

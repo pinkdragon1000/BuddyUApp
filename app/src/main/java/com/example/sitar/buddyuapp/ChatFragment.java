@@ -1,12 +1,16 @@
 package com.example.sitar.buddyuapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
 
 /**
@@ -17,6 +21,9 @@ import android.view.ViewGroup;
  * Use the {@link ChatFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+
+
 public class ChatFragment extends android.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,6 +33,8 @@ public class ChatFragment extends android.app.Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private TextView messageOne;
+    private EditText inputUser;
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,7 +67,30 @@ public class ChatFragment extends android.app.Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+       // displayChatMessage();
     }
+
+        @Override
+        public void onViewCreated (View view, Bundle savedInstanceState)
+        {
+           // ListView listOfMessages = (ListView) view.findViewById(R.id.list_of_messages);
+           // messageOne = (TextView) view.findViewById(R.id.message1);
+            inputUser=(EditText)view.findViewById(R.id.input);
+/*
+         public void onClick(View view)
+        {
+
+            if (){//button is pressed
+                if(inputUser != null){ // textbox is not empty
+                    messageOne = (TextView)inputUser;// make text appear in textbox
+
+                }
+            }
+            */
+
+        }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,4 +137,5 @@ public class ChatFragment extends android.app.Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
