@@ -36,15 +36,17 @@ import static com.example.sitar.buddyuapp.R.id.courses;
  * create an instance of this fragment.
  */
 class Item {
-    Item(String day, int time, String description) {
+    Item(String day, int time, String description, String crn) {
         this.day = day;
         this.description = description;
         this.time=time;
+        this.crn=crn;
     }
 
     private String day;
     private String description;
     private int time;
+    private String crn;
 
     public String getDay()
     {
@@ -58,6 +60,7 @@ class Item {
     {
         return time;
     }
+    public String getCRN() { return crn; }
 
 
 }
@@ -211,7 +214,7 @@ public class ScheduleFragment extends android.app.Fragment {
 
                     final String currentCRN=u.getValue().toString();
 
-                    catalog.addValueEventListener(new ValueEventListener() {
+                    catalog.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot c_item : dataSnapshot.getChildren()) {
@@ -252,7 +255,21 @@ public class ScheduleFragment extends android.app.Fragment {
                                                 iHour=iHour*100+iMinute;
                                             }
                                             //Adds classes to schedule
-                                            items.add(new Item(co_item.child("days").getValue(String.class),iHour, co_name));
+                                            boolean alreadyThere=false;
+                                            for (Item i: items)
+                                            {
+                                                if (i.getCRN().equals(currentCRN))
+                                                {
+                                                    alreadyThere=true;
+                                                }
+                                            }
+                                            if(!alreadyThere)
+                                            {
+                                                items.add(new Item(co_item.child("days").getValue(String.class),iHour, co_name, currentCRN));
+                                            }
+                                            
+
+
 
 
 
