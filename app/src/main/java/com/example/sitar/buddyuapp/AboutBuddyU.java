@@ -4,9 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -22,6 +25,7 @@ public class AboutBuddyU extends android.app.Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private TextView aboutBuddyU;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,6 +69,7 @@ public class AboutBuddyU extends android.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_about_buddyu, container, false);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -86,10 +91,47 @@ public class AboutBuddyU extends android.app.Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
+        ((TextView)view.findViewById(R.id.about_buddyu_text))
+                .setMovementMethod(new ScrollingMovementMethod());
+        aboutBuddyU= (TextView) view.findViewById(R.id.about_buddyu_text);
+        fillText();
+    }
+
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
+
+    private void fillText()
+    {
+
+        String data="";
+        data += "<p><b><font color=\"#6ac6aF\"> What is BuddyU?</font></b> <br>";
+        data +=" The purpose of the BuddyU app is to provide a social platform for college students to collaborate on their schedules in order to make class time more efficient, collaborative and fun.<br><br>" ;
+        data+="</p>";
+        //Adds on to the string the "title" Monday in a greenish color
+        data += "<p><b><font color=\"#6ac6aF\"> Platforms Available </font> </b> <br>";
+        data +="Currently the BuddyU app is designed for the Android platform." ;
+        data +="</p>";
+        //Adds on to the string the "title" Tuesday in a greenish color
+        data += "<p><b><font color=\"#6ac6aF\"> Features of BuddyU </font> </b> <br>";
+        data +="Home<br>" +
+                "-Displays a welcome message to the user.  A user can learn about what the app is about and read our terms and conditions.<br><br>"+
+                "Profile<br>" +
+                "-Allows user to change their image, add buddies, and once selected/added view schedules for those buddies.<br><br>" +
+                "Classes Screen<br>" +
+                "-Allows users to add classes to their schedule.<br><br>" +
+                "Schedule<br>" +
+                "-Displays classes user selected in the Classes screen creating a schedule for that user. ";
+        data +="</p>";
+        aboutBuddyU.setText(Html.fromHtml(data));
+
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

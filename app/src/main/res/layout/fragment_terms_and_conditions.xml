@@ -16,15 +16,15 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textSize="70px"
-        android:text="Terms and Conditions" />
+        android:text="Terms and Conditions"
+        android:gravity="center"/>
 
 
     <TextView
         android:id="@+id/terms_and_conditions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text= "@string/terms_and_conditions"
-        android:textSize="40px"
+        android:textSize="50px"
         android:scrollbars="vertical"/>
     </LinearLayout>
     </android.support.constraint.ConstraintLayout>

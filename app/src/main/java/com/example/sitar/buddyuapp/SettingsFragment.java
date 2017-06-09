@@ -80,12 +80,14 @@ public class SettingsFragment extends android.app.Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.content_main, new TermsAndConditions()).commit();
             }
         });
+        /*
         view.findViewById(R.id.report_a_problem).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction().replace(R.id.content_main, new ReportProblem()).commit();
             }
         });
+        */
     }
 
     @Override

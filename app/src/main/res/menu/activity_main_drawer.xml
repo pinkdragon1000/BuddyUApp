@@ -13,7 +13,7 @@
             android:title="Profile" />
         <item
             android:id="@+id/nav_classes"
-            android:title="Classes"/>
+            android:title="Classes" />
         <item
             android:id="@+id/nav_schedule"
             android:title="Schedule" />
@@ -22,13 +22,12 @@
             android:id="@+id/nav_chat"
             android:enabled="false"
             android:title="Chat" />-->
-
+        <!--
         <item
             android:id="@+id/nav_settings"
-            android:title="Settings" />
+            android:title="Settings" />-->
 
         <item android:id="@+id/nav_logout"
-            android:title="Logout">
-        </item>
+            android:title="Logout"/>
     </group>
 </menu>

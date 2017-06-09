@@ -91,6 +91,31 @@ public class HomeFragment extends android.app.Fragment {
         mListener = null;
     }
 
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
+        view.findViewById(R.id.about_app).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction().replace(R.id.content_main, new AboutBuddyU()).commit();
+            }
+        });
+
+        view.findViewById(R.id.terms_and_conditions).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction().replace(R.id.content_main, new TermsAndConditions()).commit();
+            }
+        });
+        /*
+        view.findViewById(R.id.report_a_problem).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction().replace(R.id.content_main, new ReportProblem()).commit();
+            }
+        });
+        */
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

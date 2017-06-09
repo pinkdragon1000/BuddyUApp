@@ -22,31 +22,34 @@
 
     <Button
         android:text="About BuddyU"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
         android:background="#6ac6af"
         android:textColor="#ffffff"
         android:id="@+id/about_app"
         android:layout_marginTop="31dp"
         android:layout_below="@+id/settings"
-        android:layout_alignLeft="@+id/terms_and_conditions"
-        android:layout_alignStart="@+id/terms_and_conditions"
-        android:layout_alignRight="@+id/terms_and_conditions"
-        android:layout_alignEnd="@+id/terms_and_conditions" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
     <Button
         android:text="Terms and Conditions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
         android:background="#6ac6af"
         android:textColor="#ffffff"
         android:id="@+id/terms_and_conditions"
         android:layout_marginTop="31dp"
         android:layout_below="@+id/about_app"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-
+<!--
     <Button
         android:text="Report a Problem"
         android:layout_width="wrap_content"
@@ -59,7 +62,7 @@
         android:layout_alignRight="@+id/terms_and_conditions"
         android:layout_alignEnd="@+id/terms_and_conditions"
         android:layout_alignLeft="@+id/terms_and_conditions"
-        android:layout_alignStart="@+id/terms_and_conditions" />
+        android:layout_alignStart="@+id/terms_and_conditions" />-->
 
 
 </RelativeLayout>

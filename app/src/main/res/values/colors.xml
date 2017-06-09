@@ -16,6 +16,7 @@
     -->
 
     <color name="black_overlay">#66000000</color>
+    <color name="navMenuTextColor">#7b7b7b</color>
 </resources>
 
 

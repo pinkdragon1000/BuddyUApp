@@ -215,15 +215,7 @@ public class YourBuddiesFragment extends android.app.Fragment
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-    /* view.findViewById(R.id.buddiesSchedule).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(getActivity(),com.example.sitar.buddyuapp.AddBuddies.class);
-                startActivity(intent);
-            }
-        });
-        */
+
         listView = (ListView) view.findViewById(R.id.yourbuddies);
         displayListView();
 

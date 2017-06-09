@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:focusable="false"
+        android:textSize="43px"
+        android:textColor="#7b7b7b"
         android:focusableInTouchMode="false"
         android:text="CheckBox" />
     <Button android:id="@+id/buddiesSchedule"

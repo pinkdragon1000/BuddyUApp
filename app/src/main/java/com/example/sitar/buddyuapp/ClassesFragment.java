@@ -368,19 +368,17 @@ public class ClassesFragment extends android.app.Fragment {
                         course.setSelected(cb.isChecked());
                         if (cb.isChecked()) {
                             Toast.makeText(getApplicationContext(),
-                                    "You selected " + cb.getText() +
-                                            " to be added as a buddy ",
+                                    "You added " + cb.getText()+" to your schedule",
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(),
-                                    "You unselected " + cb.getText() +
-                                            " to be added as a buddy ",
+                                    "You removed " + cb.getText()+" from your schedule" ,
                                     Toast.LENGTH_SHORT).show();
                         }
 
                         mycourses.removeValue();
-                        for (int x = 0; x < courses.size(); x++) {
-                            Course b = courses.get(x);
+                        for (int x = 0; x < coursesCopy.size(); x++) {
+                            Course b = coursesCopy.get(x);
                             if (b.isSelected()) {
                                 DatabaseReference r = mycourses.push();
                                 r.setValue(b.getCRN());

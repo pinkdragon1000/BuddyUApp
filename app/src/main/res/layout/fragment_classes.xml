@@ -23,11 +23,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/searchClasses"
         android:maxLines="1"
+        android:textColor="#7b7b7b"
         android:hint="Search for a class..."/>
 
     <ListView
         android:id="@+id/courses"
         android:layout_width="match_parent"
+        android:textColor="#7b7b7b"
         android:layout_height="match_parent"/>
 
 

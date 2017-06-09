@@ -10,7 +10,7 @@
 
         <TextView android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:padding="10dp"
-            android:text="Buddies" android:textSize="20sp" />
+            android:text="Buddies" android:textSize="70px" android:gravity="center" />
 
 
         <ListView android:id="@+id/yourbuddies" android:layout_width="fill_parent"

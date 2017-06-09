@@ -1,5 +1,6 @@
 package com.example.sitar.buddyuapp;
 
+//imports
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,9 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,30 +23,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import static com.example.sitar.buddyuapp.R.id.courses;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ScheduleFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ScheduleFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-class Item {
-    Item(String day, int time, String description, String crn) {
+
+class Item
+{
+    //Constructor
+    Item(String day, int time, String description, String crn)
+    {
         this.day = day;
         this.description = description;
         this.time=time;
         this.crn=crn;
     }
-
+    //Attributes for day, description, time, and crn
     private String day;
     private String description;
     private int time;
     private String crn;
 
+    //Accessor methods
     public String getDay()
     {
         return day;
@@ -62,11 +57,11 @@ class Item {
     }
     public String getCRN() { return crn; }
 
-
 }
-public class ScheduleFragment extends android.app.Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+public class ScheduleFragment extends android.app.Fragment
+{
+    //Attributes
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private TextView mySchedule;
@@ -75,27 +70,20 @@ public class ScheduleFragment extends android.app.Fragment {
     private DatabaseReference catalog;
     private ArrayList<Item> items;
 
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public ScheduleFragment() {
-        // Required empty public constructor
+    //Required empty public constructor
+    public ScheduleFragment()
+    {
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ScheduleFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ScheduleFragment newInstance(String param1, String param2) {
+
+    public static ScheduleFragment newInstance(String param1, String param2)
+    {
         ScheduleFragment fragment = new ScheduleFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -104,44 +92,60 @@ public class ScheduleFragment extends android.app.Fragment {
         return fragment;
     }
 
+    //Goes through the array list called items and checks whether the day equals TBD, Monday, Tuesday, etc.
     private String itemsForDay(String day)
     {
+        //String variable called temp
         String temp="";
+        //Goes through the array list
         for(int x=0;x<items.size();x++)
         {
+            //Checks to see whether the day equals TBD and that items contains TBD
             if (day.equals("TBD") && items.get(x).getDay().contains("TBD"))
             {
+                //Adds on the item description to temp followed by a blank space
                 temp +=items.get(x).getDescription()+"<br> <br>";
             }
+            //Makes sure the day does not equal TBD and checks that items contains any other day of the week other than TBD
             else if(!day.equals("TBD") && items.get(x).getDay().contains(day)&& !items.get(x).getDay().contains("TBD"))
             {
                 temp +=items.get(x).getDescription()+"<br> <br>";
             }
-
         }
+        //Returns the temp variable with all class descriptions
         return temp;
     }
-
+    //This method sorts the items or this case classes in order of time.
     private void updateItems()
     {
         //Sorts items in order of time
-        Collections.sort(items, new Comparator<Item>() {
+        Collections.sort(items, new Comparator<Item>()
+        {
             @Override
-            public int compare(Item lhs, Item rhs) {
+            public int compare(Item lhs, Item rhs)
+            {
                 // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
                 return lhs.getTime() < rhs.getTime() ? -1 : (lhs.getTime() > rhs.getTime() ) ? 1 : 0;
             }
         });
 
+        //Creates a string called data equal to an empty string
         String data="";
+        //Adds on to the string the "title" Day TBD in a greenish color
         data += "<p><b><font color=\"#6ac6aF\"> Day TBD </font></b> <br>";
+        //Inserts the items whose days under times are equal to TBD under the "title" Day TBD
         data += itemsForDay("TBD");
+        //Adds on to the string the "title" Monday in a greenish color
         data += "<p><b><font color=\"#6ac6aF\"> Monday </font> </b> <br>";
+        //Inserts the items whose days under times are equal to M under the "title" Monday
         data += itemsForDay("M");
         data +="</p>";
+        //Adds on to the string the "title" Tuesday in a greenish color
         data += "<p><b><font color=\"#6ac6aF\"> Tuesday </font> </b> <br>";
+        //Inserts the items whose days under times are equal to T under the "title" Day TBD
         data += itemsForDay("T");
         data +="</p>";
+
         data += "<p><b><font color=\"#6ac6aF\"> Wednesday </font> </b> <br>";
         data += itemsForDay("W");
         data +="</p>";
@@ -157,9 +161,11 @@ public class ScheduleFragment extends android.app.Fragment {
 
     }
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        if (getArguments() != null)
+        {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
@@ -167,14 +173,16 @@ public class ScheduleFragment extends android.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_schedule, container, false);
     }
 
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
         items=new ArrayList<Item>();
         firebaseAuth = firebaseAuth.getInstance();
         TextView userSch=(TextView)view.findViewById(R.id.userSchedule);
@@ -303,8 +311,10 @@ public class ScheduleFragment extends android.app.Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
+    public void onButtonPressed(Uri uri)
+    {
+        if (mListener != null)
+        {
             mListener.onFragmentInteraction(uri);
         }
     }
@@ -312,33 +322,29 @@ public class ScheduleFragment extends android.app.Fragment {
 
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Context context)
+    {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
+        if (context instanceof OnFragmentInteractionListener)
+        {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
+        }
+        else
+        {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
 
     @Override
-    public void onDetach() {
+    public void onDetach()
+    {
         super.onDetach();
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
+    public interface OnFragmentInteractionListener
+    {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
