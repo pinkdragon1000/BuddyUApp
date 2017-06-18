@@ -29,6 +29,8 @@
             android:text="Welcome to BuddyU,
             The Social Scheduler!"
             android:textSize="70px" />
+        <View android:layout_height="1px" android:layout_width="fill_parent" android:background="#000000"/>
+
 
         <Button
             android:text="About BuddyU"

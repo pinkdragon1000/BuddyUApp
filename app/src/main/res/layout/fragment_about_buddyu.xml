@@ -23,7 +23,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/about_buddyu"
         android:layout_gravity="center"
-        android:textSize="50px" />
+        android:textSize="50px"
+        android:scrollbars="vertical"/>
 
 </LinearLayout>
     </android.support.constraint.ConstraintLayout>

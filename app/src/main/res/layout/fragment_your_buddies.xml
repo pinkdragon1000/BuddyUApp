@@ -12,6 +12,13 @@
             android:layout_height="wrap_content" android:padding="10dp"
             android:text="Buddies" android:textSize="70px" android:gravity="center" />
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchBuddies"
+            android:maxLines="1"
+            android:textColor="#7b7b7b"
+            android:hint="Search for a buddy..."/>
 
         <ListView android:id="@+id/yourbuddies" android:layout_width="fill_parent"
             android:layout_height="fill_parent" />

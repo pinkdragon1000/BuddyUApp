@@ -173,7 +173,7 @@ public class AddBuddies extends AppCompatActivity {
         private ArrayList<Buddy2> buddiesList;
 
         public MyCustomAdapter2(Context context, int textViewResourceId,
-                               ArrayList<Buddy2> buddiesList) {
+                                ArrayList<Buddy2> buddiesList) {
             super(context, textViewResourceId, buddiesList);
             this.buddiesList = buddiesList;//new ArrayList<Buddy>();
             //this.buddiesList.addAll(buddiesList);
@@ -249,13 +249,10 @@ public class AddBuddies extends AppCompatActivity {
 
       /*  Button myButton = (Button) findViewById(R.id.findSelected);
         myButton.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
                 StringBuffer responseText = new StringBuffer();
                 responseText.append("The following were selected...\n");
-
                 ArrayList<Buddy2> buddiesList = dataAdapter.buddiesList;
                 for(int i=0;i<buddiesList.size();i++){
                     Buddy2 buddy = buddiesList.get(i);
@@ -263,11 +260,8 @@ public class AddBuddies extends AppCompatActivity {
                         responseText.append("\n" + buddy.getName());
                     }
                 }
-
                 Toast.makeText(getApplicationContext(),
                         responseText, Toast.LENGTH_LONG).show();
-
-
             }
         });
         */

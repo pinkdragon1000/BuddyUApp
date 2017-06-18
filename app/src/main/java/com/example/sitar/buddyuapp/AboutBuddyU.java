@@ -111,7 +111,7 @@ public class AboutBuddyU extends android.app.Fragment {
 
         String data="";
         data += "<p><b><font color=\"#6ac6aF\"> What is BuddyU?</font></b> <br>";
-        data +=" The purpose of the BuddyU app is to provide a social platform for college students to collaborate on their schedules in order to make class time more efficient, collaborative and fun.<br><br>" ;
+        data +=" The purpose of the BuddyU app is to provide a social platform for college students,specifically Drexel University, to collaborate on their schedules in order to make class time more efficient, collaborative and fun.<br><br>" ;
         data+="</p>";
         //Adds on to the string the "title" Monday in a greenish color
         data += "<p><b><font color=\"#6ac6aF\"> Platforms Available </font> </b> <br>";

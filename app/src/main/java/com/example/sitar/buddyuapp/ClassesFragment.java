@@ -108,14 +108,11 @@ public class ClassesFragment extends android.app.Fragment {
             public View getView(int position, View convertView, ViewGroup parent) {
                 // Get the current item from ListView
                 View view = super.getView(position, convertView, parent);
-
                 // Get the Layout Parameters for ListView Current Item View
                 ViewGroup.LayoutParams params = view.getLayoutParams();
-
                 // Set the height of the Item View
                 params.height = 300;
                 view.setLayoutParams(params);
-
                 return view;
             }
         };
@@ -132,7 +129,7 @@ public class ClassesFragment extends android.app.Fragment {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
-               dataAdapter.getFilter().filter(cs);
+                dataAdapter.getFilter().filter(cs);
             }
 
             @Override
@@ -176,7 +173,7 @@ public class ClassesFragment extends android.app.Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (int x = 0; x < courses.size(); x++) {
-                     courses.get(x).setSelected(false);
+                    courses.get(x).setSelected(false);
                 }
                 for (DataSnapshot u : dataSnapshot.getChildren()) {
                     for (int y = 0; y < courses.size(); y++) {
@@ -205,9 +202,7 @@ public class ClassesFragment extends android.app.Fragment {
                 Log.d(TAG, "Item clicked " + position);
                 Log.d(TAG, "Item " + courses.get(position));
                 Log.d(TAG, "Item CRN "+((Course)courses.get(position)).getCRN());
-
                 ((Course)courses.get(position)).setSelected(listView.isItemChecked(position));
-
                 mycourses.removeValue();
                 for (int x = 0; x < courses.size(); x++) {
                     Course b =(Course) courses.get(x);
@@ -216,7 +211,6 @@ public class ClassesFragment extends android.app.Fragment {
                         r.setValue(b.getCRN());
                     }
                 }
-
             }
         });
         */
@@ -284,7 +278,7 @@ public class ClassesFragment extends android.app.Fragment {
         private ArrayList<Course> coursesCopy;
 
         public MyCustomAdapter2(Context context, int textViewResourceId,
-                               ArrayList<Course> courses) {
+                                ArrayList<Course> courses) {
             super(context, textViewResourceId, courses);
             this.courses = courses;//new ArrayList<Buddy>();
             this.coursesCopy=courses;
@@ -392,14 +386,14 @@ public class ClassesFragment extends android.app.Fragment {
             }
 
             if (position < courses.size()) {
-            Course course = courses.get(position);
-            //holder.code.setText(" (" + buddy.getCode() + ")");
-            holder.name.setText(course.getName());
-            holder.section.setText(course.getName());
-            holder.name.setChecked(course.isSelected());
-            holder.name.setTag(course);
-            holder.name.setVisibility(course.getCRN().equals("")? View.INVISIBLE:View.VISIBLE);
-            holder.section.setVisibility(!course.getCRN().equals("")? View.INVISIBLE:View.VISIBLE);
+                Course course = courses.get(position);
+                //holder.code.setText(" (" + buddy.getCode() + ")");
+                holder.name.setText(course.getName());
+                holder.section.setText(course.getName());
+                holder.name.setChecked(course.isSelected());
+                holder.name.setTag(course);
+                holder.name.setVisibility(course.getCRN().equals("")? View.INVISIBLE:View.VISIBLE);
+                holder.section.setVisibility(!course.getCRN().equals("")? View.INVISIBLE:View.VISIBLE);
             }
             return convertView;
 
@@ -409,4 +403,3 @@ public class ClassesFragment extends android.app.Fragment {
     }
 
 }
-

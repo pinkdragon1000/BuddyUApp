@@ -88,49 +88,22 @@ public class TermsAndConditions extends android.app.Fragment {
     private void fillText()
     {
 
-        /*
-
-
-        Accounts \n \n
-
-        When you create an account with us, you must provide us information that is
-        accurate, complete, and current at all times. Failure to do so constitutes a
-        breach of the Terms, which may result in immediate termination of your account
-        on our Service. \n \n
-
-        You are responsible for safeguarding the password that you use to access the
-        Service and for any activities or actions under your password, whether your
-        password is with our Service or a third-party service. \n \n
-
-        You agree not to disclose your password to any third party. You must notify us
-        immediately upon becoming aware of any breach of security or unauthorized use
-        of your account. \n \n
-
-        Changes \n \n
-
-        We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will try to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion. \n \n
-
-        Contact Us \n \n
-
-        If you have any questions about these Terms, please contact us.
-        */
-
         String data="";
         data += "<p><b><font color=\"#6ac6aF\"> Last updated: 5/7/17 </font></b> <br><br>";
         data +=" Please read these Terms and Conditions carefully before using the BuddyU app operated by the BuddyU Team.<br><br> " +
                 "Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms.<br><br>  " +
                 "These terms apply to all users who access or use the Service.<br><br>" +
-                "By accessing or using this Service you agree to be bound by these Terms." +
+                "By accessing or using this Service you agree to be bound by these Terms.  " +
                 "If you disagree with any part of these terms then you may not access the Service.";
         data+="</p>";
         //Adds on to the string the "title" Monday in a greenish color
         data += "<p><b><font color=\"#6ac6aF\"> Accounts </font> </b> <br>";
-        data +="When you create an account with us, you must provide us information that is" +
-                "accurate, complete, and current at all times. Failure to do so constitutes a" +
-                "breach of the Terms, which may result in immediate termination of your account" +
+        data +="When you create an account with us, you must provide us information that is " +
+                "accurate, complete, and current at all times.  Failure to do so constitutes a " +
+                "breach of the Terms, which may result in immediate termination of your account " +
                 "on our Service.<br><br>" +
                 "You are responsible for safeguarding the password that you use to access the " +
-                "Service and for any activities or actions under your password, whether your" +
+                "Service and for any activities or actions under your password, whether your " +
                 "password is with our Service or a third-party service.<br><br>" +
                 "You agree not to disclose your password to any third party. You must notify us " +
                 "immediately upon becoming aware of any breach of security or unauthorized use of your account." ;
