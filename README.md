@@ -17,9 +17,8 @@ Currently the BuddyU app is designed for the Android platform.
 Home
 * Displays a welcome message to the user.  A user can learn about what the app is about and read the terms and conditions.
 <br>
-Profile
-* Allows a user to change their image, add buddies, and once selected/added view schedules for those buddies.
-<br>
+Profile <br>
+* Allows a user to change their image, add buddies, and once selected/added view schedules for those buddies. <br>
 Classes
 * Allows users to add classes to their schedule.  
 <br>
