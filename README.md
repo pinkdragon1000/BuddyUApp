@@ -18,15 +18,16 @@ Home
 
 * Displays a welcome message to the user.  A user can learn about what the app is about and read the terms and conditions.
 <br>
-Profile <br>
+Profile
 
-* Allows a user to change their image, add buddies, and once selected/added view schedules for those buddies. <br>
-
+* Allows a user to change their image, add buddies, and once selected/added view schedules for those buddies. 
+<br>
 Classes
-* Allows users to add classes to their schedule.  
 
+* Allows users to add classes to their schedule.  
 <br>
 Schedule
+
 * Displays classes user seleced in the Classes screen creating a schedule for that user.  
 
 ## Manuals
