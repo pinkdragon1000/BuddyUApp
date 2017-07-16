@@ -2,7 +2,7 @@
 <br>
 <br>
 
-<p align="center"><img src="buddyu3 - Copy.JPG" style="width:100px;height:100px";/></p>
+<p align="center"><img src="buddyulogo.JPG"/></p>
 
 <br>
 <br>
