@@ -33,3 +33,7 @@ Schedule
 * [View the BuddyU User Manual](http://www.sitarobinson.com/BuddyU%20User%20Manual.pdf)
 * [View the BuddyU System Manual](http://www.sitarobinson.com/BuddyU%20System%20Manual.pdf)
 
+## Useful Links
+* [Download Android Studio Here](https://developer.android.com/studio/index.html)
+* [Link to Firebase](https://firebase.google.com/)
+* [Link to Drexel TMS](https://duapp2.drexel.edu/webtms_du/app)
