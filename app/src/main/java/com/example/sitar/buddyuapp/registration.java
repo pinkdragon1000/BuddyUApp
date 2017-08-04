@@ -378,21 +378,21 @@ public class registration extends AppCompatActivity implements View.OnClickListe
 
 
 
-    private void handleSignInResult(GoogleSignInResult result) {
+    private void handleSignInResult(GoogleSignInResult result)
+    {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            //updateUI(true);
+
             firebaseAuthWithGoogle(acct);
             Toast.makeText(registration.this, "Google Authentication succeeded!" ,
                     Toast.LENGTH_LONG).show();
-        } else {
+        }
+        else
+        {
 
             Toast.makeText(registration.this, "Google Authentication failed!", Toast.LENGTH_LONG).show();
-            // Signed out, show unauthenticated UI.
-            //updateUI(false);
         }
     }
 
@@ -426,7 +426,8 @@ public class registration extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    protected void onPostCreate(Bundle savedInstanceState)
+    {
         super.onPostCreate(savedInstanceState);
 
         // Trigger the initial hide() shortly after the activity has been
@@ -435,21 +436,27 @@ public class registration extends AppCompatActivity implements View.OnClickListe
         delayedHide(100);
     }
 
-    private void toggle() {
-        if (mVisible) {
+    private void toggle()
+    {
+        if (mVisible)
+        {
             hide();
-        } else {
+        }
+        else
+        {
             show();
         }
     }
 
-    private void hide() {
+    private void hide()
+    {
         // Hide UI first
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
+        if (actionBar != null)
+        {
             actionBar.hide();
         }
-        //  mControlsView.setVisibility(View.GONE);
+
         mVisible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay
@@ -458,7 +465,8 @@ public class registration extends AppCompatActivity implements View.OnClickListe
     }
 
     @SuppressLint("InlinedApi")
-    private void show() {
+    private void show()
+    {
         // Show the system bar
        /* mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);*/
@@ -473,25 +481,30 @@ public class registration extends AppCompatActivity implements View.OnClickListe
      * Schedules a call to hide() in [delay] milliseconds, canceling any
      * previously scheduled calls.
      */
-    private void delayedHide(int delayMillis) {
+    private void delayedHide(int delayMillis)
+    {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-    private void handleFacebookAccessToken(AccessToken token) {
+    private void handleFacebookAccessToken(AccessToken token)
+    {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+                {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
+                        if (!task.isSuccessful())
+                        {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(registration.this, "Authentication failed.  " + task.getException(),
                                     Toast.LENGTH_LONG).show();
@@ -504,18 +517,20 @@ public class registration extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
         firebaseAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
-    public void onStop() {
+    public void onStop()
+    {
         super.onStop();
-        if (mAuthListener != null) {
+        if (mAuthListener != null)
+        {
             firebaseAuth.removeAuthStateListener(mAuthListener);
         }
     }
-
 
 }

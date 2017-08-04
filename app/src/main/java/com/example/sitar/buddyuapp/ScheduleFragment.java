@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -55,7 +55,10 @@ class Item
     {
         return time;
     }
-    public String getCRN() { return crn; }
+    public String getCRN()
+    {
+        return crn;
+    }
 
 }
 
@@ -65,6 +68,7 @@ public class ScheduleFragment extends android.app.Fragment
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private TextView mySchedule;
+    private ImageView userPicture;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference myCourses;
     private DatabaseReference catalog;
@@ -172,8 +176,7 @@ public class ScheduleFragment extends android.app.Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_schedule, container, false);
@@ -187,6 +190,7 @@ public class ScheduleFragment extends android.app.Fragment
         firebaseAuth = firebaseAuth.getInstance();
         TextView userSch=(TextView)view.findViewById(R.id.userSchedule);
         mySchedule= (TextView) view.findViewById(R.id.my_schedule);
+        userPicture = (ImageView) view.findViewById(R.id.user_picture);
         String tempUID = firebaseAuth.getCurrentUser().getUid();
         Bundle bundle = getArguments();
         if (bundle != null)
@@ -195,7 +199,7 @@ public class ScheduleFragment extends android.app.Fragment
             if (!tempUID2.equals(""))
             {
                 tempUID = tempUID2;
-                userSch.setText("Schedule for "+ bundle.getString("Name","???"));
+                userSch.setText("Schedule for "+ "\n"+ bundle.getString("Name","???"));
 
             }
         }
@@ -206,34 +210,35 @@ public class ScheduleFragment extends android.app.Fragment
 
         ((TextView)view.findViewById(R.id.my_schedule))
                 .setMovementMethod(new ScrollingMovementMethod());
-        myCourses.addValueEventListener(new ValueEventListener() {
+        myCourses.addValueEventListener(new ValueEventListener()
+        {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                /*
-                for (int x = 0; x < courses.size(); x++) {
-                    courses.get(x).setSelected(false);
-                }
-                */
-                //String s="";
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
                 mySchedule.setText("");
                 items.clear();
-                for (DataSnapshot u : dataSnapshot.getChildren()) {
-                    Log.d("blah",u.getValue().toString());
-
+                for (DataSnapshot u : dataSnapshot.getChildren())
+                {
                     final String currentCRN=u.getValue().toString();
 
-                    catalog.addListenerForSingleValueEvent(new ValueEventListener() {
+                    catalog.addListenerForSingleValueEvent(new ValueEventListener()
+                    {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot c_item : dataSnapshot.getChildren()) {
+                        public void onDataChange(DataSnapshot dataSnapshot)
+                        {
+                            for (DataSnapshot c_item : dataSnapshot.getChildren())
+                            {
                                 String c_name = c_item.child("college").getValue(String.class);
 
 
-                                for (DataSnapshot s_item : c_item.child("subjects").getChildren()) {
+                                for (DataSnapshot s_item : c_item.child("subjects").getChildren())
+                                {
                                     String s_name = s_item.child("subject").getValue(String.class);
 
-                                    for (DataSnapshot co_item : s_item.child("courses").getChildren()) {
-                                        if (co_item.child("crn").getValue(String.class).equals(currentCRN)) {
+                                    for (DataSnapshot co_item : s_item.child("courses").getChildren())
+                                    {
+                                        if (co_item.child("crn").getValue(String.class).equals(currentCRN))
+                                        {
                                             String co_name = co_item.child("subject_code").getValue(String.class) + " " +
                                                     co_item.child("course_no").getValue(String.class) + " - " +
                                                     co_item.child("course_title").getValue(String.class)+ " <br> Sec #: " +
@@ -242,8 +247,6 @@ public class ScheduleFragment extends android.app.Fragment
                                                     co_item.child("time").getValue(String.class) +
                                                     "<br> Instructor: " + co_item.child("instructor").getValue(String.class)+
                                                     "<br> CRN #: "+ co_item.child("crn").getValue(String.class);
-
-                                            Log.d("blah4",co_name);
                                             int iHour=0;
 
                                             String sTime=co_item.child("time").getValue(String.class);
@@ -275,13 +278,6 @@ public class ScheduleFragment extends android.app.Fragment
                                             {
                                                 items.add(new Item(co_item.child("days").getValue(String.class),iHour, co_name, currentCRN));
                                             }
-                                            
-
-
-
-
-
-
                                         }
                                     }
                                 }
@@ -289,22 +285,19 @@ public class ScheduleFragment extends android.app.Fragment
                             updateItems();
                         }
 
-
                         @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                        public void onCancelled(DatabaseError databaseError)
+                        {
                         }
                     });
 
-
-
                 }
-                //mySchedule.setText(s);
             }
 
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onCancelled(DatabaseError databaseError)
+            {
             }
         });
 

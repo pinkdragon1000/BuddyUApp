@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,7 +101,6 @@ public class ProfileFragment extends android.app.Fragment
                 mIcon11 = BitmapFactory.decodeStream(in);
             } catch (Exception e)
             {
-                Log.e("Error", e.getMessage());
                 e.printStackTrace();
             }
             return mIcon11;
@@ -148,7 +146,8 @@ public class ProfileFragment extends android.app.Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         return inflater.inflate(fragment_profile, container, false);
     }
@@ -165,9 +164,11 @@ public class ProfileFragment extends android.app.Fragment
 
         loadProfilePicture();
 
-        uploadImage.setOnClickListener(new View.OnClickListener() {
+        uploadImage.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityForResult(intent, GALLERY_INTENT);
@@ -182,15 +183,6 @@ public class ProfileFragment extends android.app.Fragment
                 getFragmentManager().beginTransaction().replace(R.id.content_main, new YourBuddiesFragment()).commit();
             }
         });
-        /*
-        view.findViewById(R.id.buddy_requests).setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.content_main, new BuddyRequests()).commit();
-            }
-        });
-        */
     }
 
     // TODO: Rename method, update argument and hook method into UI event

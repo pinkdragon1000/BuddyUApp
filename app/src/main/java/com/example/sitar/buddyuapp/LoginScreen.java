@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -89,10 +88,12 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
     // private View mContentView;
-    private final Runnable mHidePart2Runnable = new Runnable() {
+    private final Runnable mHidePart2Runnable = new Runnable()
+    {
         @SuppressLint("InlinedApi")
         @Override
-        public void run() {
+        public void run()
+        {
             // Delayed removal of status and navigation bar
 
             // Note that some of these constants are new as of API 16 (Jelly Bean)
@@ -108,21 +109,26 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         }
     };
     // private View mControlsView;
-    private final Runnable mShowPart2Runnable = new Runnable() {
+    private final Runnable mShowPart2Runnable = new Runnable()
+    {
         @Override
-        public void run() {
+        public void run()
+        {
             // Delayed display of UI elements
             ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
+            if (actionBar != null)
+            {
                 actionBar.show();
             }
             // mControlsView.setVisibility(View.VISIBLE);
         }
     };
     private boolean mVisible;
-    private final Runnable mHideRunnable = new Runnable() {
+    private final Runnable mHideRunnable = new Runnable()
+    {
         @Override
-        public void run() {
+        public void run()
+        {
             hide();
         }
     };
@@ -131,27 +137,31 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener()
+    {
         @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
+        public boolean onTouch(View view, MotionEvent motionEvent)
+        {
+            if (AUTO_HIDE)
+            {
                 delayedHide(AUTO_HIDE_DELAY_MILLIS);
             }
             return false;
         }
     };
 
-    public void goToHome(View view) {
+    public void goToHome(View view)
+    {
         Intent intent = new Intent(this,com.example.sitar.buddyuapp.MainActivity.class);
         startActivity(intent);
     }
 
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(ConnectionResult connectionResult)
+    {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
-        Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
     @Override
@@ -189,7 +199,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
         googleButton= (SignInButton)findViewById(R.id.googleButton);
         googleButton.setOnClickListener(this);
-        //mStatusTextView = (TextView) findViewById(R.id.status);
 
 
         // Configure sign-in to request the user's ID, email address, and basic
@@ -201,7 +210,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
 
         // Build a GoogleApiClient with access to the Google Sign-In API and the
-// options specified by gso.
+        // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -213,38 +222,38 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+            public void onSuccess(LoginResult loginResult)
+            {
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
             @Override
-            public void onCancel() {
-                Log.d(TAG, "facebook:onCancel");
+            public void onCancel()
+            {
                 // ...
                 Toast.makeText(LoginScreen.this, "Facebook Login Cancelled!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
+            public void onError(FacebookException error)
+            {
                 Toast.makeText(LoginScreen.this, "Facebook Login Failed!", Toast.LENGTH_SHORT).show();
                 // ...
             }
-
-
-
 
         });
 
 // ...
 
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
+        mAuthListener = new FirebaseAuth.AuthStateListener()
+        {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
+            {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
+                if (user != null)
+                {
 
                     DatabaseReference uu = userRef.child(firebaseAuth.getCurrentUser().getUid());
                     uu.child("provider").setValue(firebaseAuth.getCurrentUser().getProviderId());
@@ -254,50 +263,17 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                     uu.child("name").setValue(name);
                     uu.child("email").setValue(firebaseAuth.getCurrentUser().getEmail());
 
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+
                     finish();
                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    //Toast.makeText(LoginScreen.this, "Error:Could not login.  Please try again.", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+
                 }
 
             }
         };
-
-
-
-
-
-
-
-
-        // mControlsView = findViewById(R.id.fullscreen_content_controls);
-        // mContentView = findViewById(R.id.fullscreen_content);
-
-
-        // Set up the user interaction to manually show or hide the system UI.
-       /*mContentView.setOnClickListener(new View.OnClickListener() {
-           @Override
-            public void onClick(View view) {
-                toggle();
-            }
-        });
-        */
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        //   findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
-       /* findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToHome(view);
-            }
-        });
-     */
     }
 
     private void userLogin()
@@ -319,7 +295,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         progressDialog.setMessage("Signing in User");
         progressDialog.show();
 
-        firebaseAuth.signInWithEmailAndPassword(username_str,password_str).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        firebaseAuth.signInWithEmailAndPassword(username_str,password_str).addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+        {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task)
             {
@@ -338,17 +315,20 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
 
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN)
+        {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
 
-        } else
+        }
+        else
         {
             // Pass the activity result back to the Facebook SDK
             //Assume Facebook
@@ -357,23 +337,23 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-        Log.d(TAG, "firbaseAuthWithGoogle acct.getIdToken()" + acct.getIdToken());
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct)
+    {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
 
         firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+                {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
+                        if (!task.isSuccessful())
+                        {
                             Toast.makeText(LoginScreen.this, "Authentication failed.  " + task.getException(),
                                     Toast.LENGTH_LONG).show();
                         }
@@ -385,21 +365,22 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
 
 
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
+    private void handleSignInResult(GoogleSignInResult result)
+    {
+        if (result.isSuccess())
+        {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            //updateUI(true);
+
             firebaseAuthWithGoogle(acct);
             Toast.makeText(LoginScreen.this, "Google Authentication succeeded!" ,
                     Toast.LENGTH_LONG).show();
-        } else {
+        }
+        else
+        {
 
             Toast.makeText(LoginScreen.this, "Google Authentication failed!", Toast.LENGTH_LONG).show();
-            // Signed out, show unauthenticated UI.
-            //updateUI(false);
+
         }
     }
 
@@ -423,7 +404,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private void signIn() {
+    private void signIn()
+    {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -432,7 +414,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    protected void onPostCreate(Bundle savedInstanceState)
+    {
         super.onPostCreate(savedInstanceState);
 
         // Trigger the initial hide() shortly after the activity has been
@@ -441,18 +424,24 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         delayedHide(100);
     }
 
-    private void toggle() {
-        if (mVisible) {
+    private void toggle()
+    {
+        if (mVisible)
+        {
             hide();
-        } else {
+        }
+        else
+        {
             show();
         }
     }
 
-    private void hide() {
+    private void hide()
+    {
         // Hide UI first
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
+        if (actionBar != null)
+        {
             actionBar.hide();
         }
         //  mControlsView.setVisibility(View.GONE);
@@ -464,7 +453,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     }
 
     @SuppressLint("InlinedApi")
-    private void show() {
+    private void show()
+    {
         // Show the system bar
        /* mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);*/
@@ -484,21 +474,22 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-    private void handleFacebookAccessToken(AccessToken token) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token);
+    private void handleFacebookAccessToken(AccessToken token)
+    {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+                {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
+                        if (!task.isSuccessful())
+                        {
                             Toast.makeText(LoginScreen.this, "Authentication failed.  " + task.getException(),
                                     Toast.LENGTH_LONG).show();
                         }
@@ -510,15 +501,18 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
 
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
         firebaseAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
-    public void onStop() {
+    public void onStop()
+    {
         super.onStop();
-        if (mAuthListener != null) {
+        if (mAuthListener != null)
+        {
             firebaseAuth.removeAuthStateListener(mAuthListener);
         }
     }

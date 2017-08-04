@@ -49,20 +49,4 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-<!--
-    <Button
-        android:text="Report a Problem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#6ac6af"
-        android:textColor="#ffffff"
-        android:id="@+id/report_a_problem"
-        android:layout_marginTop="31dp"
-        android:layout_below="@+id/terms_and_conditions"
-        android:layout_alignRight="@+id/terms_and_conditions"
-        android:layout_alignEnd="@+id/terms_and_conditions"
-        android:layout_alignLeft="@+id/terms_and_conditions"
-        android:layout_alignStart="@+id/terms_and_conditions" />-->
-
-
 </RelativeLayout>

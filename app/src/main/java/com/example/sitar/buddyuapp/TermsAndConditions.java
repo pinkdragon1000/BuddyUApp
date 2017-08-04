@@ -96,7 +96,7 @@ public class TermsAndConditions extends android.app.Fragment {
                 "By accessing or using this Service you agree to be bound by these Terms.  " +
                 "If you disagree with any part of these terms then you may not access the Service.";
         data+="</p>";
-        //Adds on to the string the "title" Monday in a greenish color
+        //Adds on to the string the "title" Accounts in a greenish color
         data += "<p><b><font color=\"#6ac6aF\"> Accounts </font> </b> <br>";
         data +="When you create an account with us, you must provide us information that is " +
                 "accurate, complete, and current at all times.  Failure to do so constitutes a " +
@@ -108,13 +108,14 @@ public class TermsAndConditions extends android.app.Fragment {
                 "You agree not to disclose your password to any third party. You must notify us " +
                 "immediately upon becoming aware of any breach of security or unauthorized use of your account." ;
         data +="</p>";
-        //Adds on to the string the "title" Tuesday in a greenish color
+        //Adds on to the string the "title" Changes in a greenish color
         data += "<p><b><font color=\"#6ac6aF\"> Changes </font> </b> <br>";
         data +="We reserve the right, at our sole discretion, to modify or replace these Terms at any time. " +
                 "If a revision is material we will try to provide at least 30 days' notice prior to any new terms taking effect. " +
                 "What constitutes a material change will be determined at our sole discretion.";
         data +="</p>";
 
+        //Adds on to the string the "title" Contact Us in a greenish color
         data += "<p><b><font color=\"#6ac6aF\"> Contact Us </font> </b> <br>";
         data +="If you have any questions about these Terms, please contact the email sita.robinson@drexel.edu.";
         data +="</p>";

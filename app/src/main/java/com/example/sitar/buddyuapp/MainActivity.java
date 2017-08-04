@@ -20,16 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity
         implements HomeFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener,
-        CalendarFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
         YourBuddiesFragment.OnFragmentInteractionListener,
-        ChatFragment.OnFragmentInteractionListener,
-        ChatGroupsFragment.OnFragmentInteractionListener,
         ClassesFragment.OnFragmentInteractionListener,
         AboutBuddyU.OnFragmentInteractionListener,
         TermsAndConditions.OnFragmentInteractionListener,
-        BuddyRequests.OnFragmentInteractionListener,
-        ReportProblem.OnFragmentInteractionListener,
         ScheduleFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
@@ -126,12 +121,7 @@ public class MainActivity extends AppCompatActivity
         {
             getFragmentManager().beginTransaction().replace(R.id.content_main, new ProfileFragment()).commit();
         }
-        /*
-        else if(id==R.id.nav_settings)
-        {
-            getFragmentManager().beginTransaction().replace(R.id.content_main, new SettingsFragment()).commit();
-        }
-        */
+
         else if(id==R.id.nav_logout)
         {
             finish();
