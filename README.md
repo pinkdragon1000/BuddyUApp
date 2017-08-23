@@ -11,7 +11,7 @@
 The purpose of the BuddyU app is to provide a social platform for college students, specifically Drexel University students, to collaborate on their schedules in order to make class time more efficient, collaborative and fun.
 
 ## Platforms Available
-Currently the BuddyU app is designed for the Android platform.
+The BuddyU app is designed for the Android platform.  However, it is not on the Google Play store.  
 
 ## Features of BuddyU
 Home
