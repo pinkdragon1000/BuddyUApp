@@ -30,8 +30,8 @@ Schedule
 * Displays classes user seleced in the Classes screen creating a schedule for that user.  
 
 ## Manuals
-* [View the BuddyU User Manual](http://www.sitarobinson.com/BuddyU%20User%20Manual.pdf)
-* [View the BuddyU System Manual](http://www.sitarobinson.com/BuddyU%20System%20Manual.pdf)
+* [View the BuddyU User Manual](https://github.com/sitarobinson/BuddyUApp/blob/master/BuddyU%20User%20Manual.pdf)
+* [View the BuddyU System Manual](https://github.com/sitarobinson/BuddyUApp/blob/master/BuddyU%20System%20Manual.pdf)
 
 ## Useful Links
 * [Download Android Studio Here](https://developer.android.com/studio/index.html)
